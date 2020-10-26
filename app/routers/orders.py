@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.database import SessionLocal
-from app.models.models import Order
+from app.models.orders import Order
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from app.schemas.order_schemas import OrderSchema
