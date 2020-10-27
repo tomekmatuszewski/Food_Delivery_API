@@ -1,12 +1,13 @@
-from fastapi import APIRouter
+from datetime import date
+
+from fastapi import APIRouter, BackgroundTasks, Depends
+from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
+
 from app.database import SessionLocal
 from app.models.orders import Order
-from sqlalchemy.orm import Session
-from fastapi import Depends, BackgroundTasks
-from app.schemas.order_schemas import OrderSchema
-from datetime import date
-from fastapi.templating import Jinja2Templates
 from app.routers.utils import get_distance
+from app.schemas.order_schemas import OrderSchema
 
 templates = Jinja2Templates(directory="/templates")
 orders = APIRouter()
@@ -39,12 +40,22 @@ def add_distance(order: Order, db: Session, source_address, destination_address)
 
 
 @orders.post("/orders")
-async def create_order(order_request: OrderSchema, background_task: BackgroundTasks, db: Session = Depends(get_db)):
+async def create_order(
+    order_request: OrderSchema,
+    background_task: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
     order_dict = order_request.dict()
     order = Order(**order_dict)
     order.date = date.today()
     db.add(order)
     db.commit()
-    background_task.add_task(add_distance, order, db, order_request.source_address, order_request.destination_address)
+    background_task.add_task(
+        add_distance,
+        order,
+        db,
+        order_request.source_address,
+        order_request.destination_address,
+    )
 
     return order_dict

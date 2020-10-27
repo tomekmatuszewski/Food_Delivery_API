@@ -6,7 +6,7 @@
 
 :snake: FAST_API :snake:, SQLAlchemy
 
-    - FrontEnd      -> Semantic UI :ok_hand:
+    - FrontEnd      -> Semantic UI
     - Unit tests    -> Pytest 
     - Testing API   -> Postman
     - DB            -> SQLite
