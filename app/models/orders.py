@@ -11,6 +11,7 @@ class Order(Base):
     source_address = Column(String(length=250))
     destination_address = Column(String(length=250))
     date = Column(Date())
+    distance = Column(Float)
     other_info = Column(Text(length=300), nullable=True)
 
     def to_dict(self):
