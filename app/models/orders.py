@@ -16,7 +16,7 @@ class Order(Base):
 
     def to_dict(self):
         return {"id": self.id, "full name": self.full_name, "source address": self.source_address,
-                "destination address": self.destination_address, "date": self.date}
+                "destination address": self.destination_address, "distance": self.distance, "date": self.date}
 
     def __repr__(self):
         return {"id": self.id, "delivery guy": self.full_name}
