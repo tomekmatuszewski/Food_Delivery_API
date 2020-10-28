@@ -1,0 +1,12 @@
+.navbar
+{
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.navbar #add-order
+{
+    margin-right: 0;
+    margin-left: auto;
+}
