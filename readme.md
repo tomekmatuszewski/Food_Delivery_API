@@ -8,7 +8,7 @@
 
     - FrontEnd      -> Semantic UI
     - Unit tests    -> Pytest 
-    - Testing API   -> Postman
+    - Testing API   -> Postman / Insomnia
     - DB            -> SQLite
 
 Status: 

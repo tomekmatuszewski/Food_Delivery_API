@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.models.orders import Order
+from app.models.employees import Employee
 from app.routers.utils import get_distance
 from app.schemas.order_schemas import OrderSchema
 
@@ -30,9 +31,11 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     :return:
     """
     orders = db.query(Order)
+    employees = db.query(Employee)
     return templates.TemplateResponse("home.html", context={
         "request": request,
-        "orders": orders
+        "orders": orders,
+        "employees": employees
     })
 
 
@@ -41,6 +44,7 @@ def add_distance(order: Order, db: Session, source_address, destination_address)
     order.distance = distance
     db.add(order)
     db.commit()
+
 
 @orders.post("/orders")
 async def create_order(
