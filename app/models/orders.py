@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
-
+from app.models.employees import Employee
 from app.database import Base
 
 
@@ -27,4 +27,4 @@ class Order(Base):
         }
 
     def __repr__(self):
-        return {"id": self.id, "delivery person": self.employee.full_name}
+        return {"id": self.id, "source_address": self.source_address, "destination_address": self.destination_address}

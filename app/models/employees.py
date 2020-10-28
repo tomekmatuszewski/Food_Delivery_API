@@ -17,7 +17,7 @@ class Employee(Base):
 
     @hybrid_property
     def full_name(self):
-        return f"{self.first_name} {self.last_name }"
+        return f"{self.first_name} {self.last_name}"
 
     def __repr__(self):
         return f"{self.full_name}"

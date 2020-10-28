@@ -1,4 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+        <table class="ui celled table">
+              <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Employee</th>
+                    <th>Source Address</th>
+                    <th>Destination Address</th>
+                    <th>Date</th>
+                    <th>Distance</th>
+                    <th>Additional Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.employee.full_name }}</td>
+                    <td>{{ order.source_address }}</td>
+                    <td>{{ order.destination_address }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.distance }}</td>
+                    <td>{{ order.other_info }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
 {% endblock %}

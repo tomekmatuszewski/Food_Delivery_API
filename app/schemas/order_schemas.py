@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
 
 
 class OrderSchema(BaseModel):

@@ -21,4 +21,4 @@ def get_distance(address_from: str, address_to: str, road_type: str = "fastest")
 
 
 if __name__ == "__main__":
-    print(get_distance("Kraków, Czerwone Maki 49", "Kraków, Grota Roweckiego 2"))
+    print(get_distance("Kraków, Czerwone Maki 49", "Kraków, Kuklińskiego 17"))
