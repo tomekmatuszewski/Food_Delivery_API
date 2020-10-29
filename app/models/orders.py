@@ -12,6 +12,7 @@ class Order(Base):
     employee_id = Column(Integer, ForeignKey("employee.id"))
     client_id = Column(Integer, ForeignKey("client.id"))
     destination_address = Column(String(length=250))
+    contact_phone = Column(String(15))
     date = Column(Date())
     distance = Column(Float)
     full_price = Column(Float)

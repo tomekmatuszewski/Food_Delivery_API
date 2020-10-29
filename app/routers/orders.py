@@ -41,7 +41,7 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
 
 
 def add_distance(order: Order, db: Session, client_id, destination_address):
-    client_address = db.query(Client.address).get(client_id).address
+    client_address = db.query(Client).get(client_id).address
     distance = get_distance(client_address, destination_address)
     order.distance = distance
     db.add(order)
