@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 from app.models.employees import Employee
+from app.models.clients import Client
 from app.database import Base
 
 
@@ -9,22 +10,15 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     employee_id = Column(Integer, ForeignKey("employee.id"))
-    source_address = Column(String(length=250))
+    client_id = Column(Integer, ForeignKey("client.id"))
     destination_address = Column(String(length=250))
     date = Column(Date())
     distance = Column(Float)
+    full_price = Column(Float)
     other_info = Column(Text(length=300), nullable=True)
 
     employee = relationship("Employee", back_populates="orders")
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "source address": self.source_address,
-            "destination address": self.destination_address,
-            "distance": self.distance,
-            "date": self.date,
-        }
+    client = relationship("Client", back_populates="orders")
 
     def __repr__(self):
-        return {"id": self.id, "source_address": self.source_address, "destination_address": self.destination_address}
+        return {"id": self.id, "delivery person": self.employee.full_name, "client": self.client.company_name}

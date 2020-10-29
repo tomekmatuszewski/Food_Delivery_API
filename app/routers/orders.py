@@ -5,10 +5,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
-from app.models.orders import Order
-from app.models.employees import Employee
+from app.models import Client, Employee, Order
 from app.routers.utils import get_distance
-from app.schemas.order_schemas import OrderSchema
+from app.schemas import OrderSchema
 
 BASE_DIR = Path(__name__).parent.parent.parent
 templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
@@ -32,15 +31,18 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     """
     orders = db.query(Order)
     employees = db.query(Employee)
+    clients = db.query(Client)
     return templates.TemplateResponse("home.html", context={
         "request": request,
         "orders": orders,
-        "employees": employees
+        "employees": employees,
+        "clients": clients,
     })
 
 
-def add_distance(order: Order, db: Session, source_address, destination_address):
-    distance = get_distance(source_address, destination_address)
+def add_distance(order: Order, db: Session, client_id, destination_address):
+    client_address = db.query(Client.address).get(client_id).address
+    distance = get_distance(client_address, destination_address)
     order.distance = distance
     db.add(order)
     db.commit()
@@ -55,13 +57,14 @@ async def create_order(
     order_dict = order_request.dict()
     order = Order(**order_dict)
     order.date = date.today()
+
     db.add(order)
     db.commit()
     background_task.add_task(
         add_distance,
         order,
         db,
-        order_request.source_address,
+        order_request.client_id,
         order_request.destination_address,
     )
 

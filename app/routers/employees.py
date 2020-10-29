@@ -18,7 +18,7 @@ def get_db():
         db.close()
 
 
-@employees.post("/employees/add")
+@employees.post("/employee/add")
 async def add_employee(emp_request: EmployeeSchema, db: Session = Depends(get_db)):
     emp_dict = emp_request.dict()
     employee = Employee(**emp_dict)

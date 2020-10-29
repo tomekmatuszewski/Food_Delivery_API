@@ -1,11 +1,12 @@
 from typing import Optional
 
-from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr, StrictFloat
 
 
 class OrderSchema(BaseModel):
 
     employee_id: StrictInt
-    source_address: StrictStr
+    client_id: StrictInt
     destination_address: StrictStr
+    full_price: StrictFloat
     other_info: Optional[StrictStr] = None
