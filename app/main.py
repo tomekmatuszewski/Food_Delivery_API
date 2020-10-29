@@ -1,14 +1,16 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
-from app.database import Base, engine
+from pathlib import Path
+from app import database
 from app.routers import orders, employees, clients
 
+
 app = FastAPI()
+BASE_DIR = Path(__file__).parent.parent
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=f"{BASE_DIR}/static"), name="static")
 
-Base.metadata.create_all(bind=engine)
+database.init_db()
 
 app.include_router(orders, prefix="/fast_delivery", tags=["orders"])
 app.include_router(employees, prefix="/fast_delivery", tags=["employees"])

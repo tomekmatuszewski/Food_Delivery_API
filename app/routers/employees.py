@@ -1,18 +1,22 @@
+from pathlib import Path
+
 from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.database import SessionLocal
+from app.main import database
 from app.models.employees import Employee
 from app.schemas.employee_schema import EmployeeSchema
 
-templates = Jinja2Templates(directory="/templates")
+BASE_DIR = Path(__file__).parent.parent.parent
+templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 employees = APIRouter()
 
 
 def get_db():
+    global db
     try:
-        db = SessionLocal()
+        db = database.SessionLocal()
         yield db
     finally:
         db.close()

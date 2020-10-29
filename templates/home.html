@@ -22,6 +22,7 @@
                         <th>Destination Address</th>
                         <th>Contact Phone</th>
                         <th>Date</th>
+                        <th>Price</th>
                         <th>Distance</th>
                         <th>Additional Info</th>
                     </tr>
@@ -35,7 +36,8 @@
                         <td>{{ order.destination_address }}</td>
                         <td>{{ order.contact_phone }}</td>
                         <td>{{ order.date }}</td>
-                        <td>{{ order.distance }}</td>
+                        <td>{{ "%.2f PLN"|format(order.full_price|float) }}</td>
+                        <td>{{ "%.2f km"|format(order.distance|float) }}</td>
                         <td>{{ order.other_info }}</td>
                     </tr>
                     {% endfor %}

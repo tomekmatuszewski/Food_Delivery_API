@@ -4,19 +4,20 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.database import SessionLocal
+from app.main import database
 from app.models import Client, Employee, Order
 from app.routers.utils import get_distance
 from app.schemas import OrderSchema
 
-BASE_DIR = Path(__name__).parent.parent.parent
+BASE_DIR = Path(__file__).parent.parent.parent
 templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 orders = APIRouter()
 
 
 def get_db():
+    global db
     try:
-        db = SessionLocal()
+        db = database.SessionLocal()
         yield db
     finally:
         db.close()
@@ -26,7 +27,8 @@ def get_db():
 async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     """
     Display all orders from db
-    :param db:
+    :param request:
+    :param db: session of database
     :return:
     """
     orders = db.query(Order)

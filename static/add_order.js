@@ -13,13 +13,14 @@ $(document).ready(function() {
                         url: window.location.href,
                         type: "POST",
                         contentType: 'application/json',
-                        data: JSON.stringify({"employee_id": parseInt(employee_id),
-                                                    "client_id": parseInt(client_id),
-                                                    "destination_address": dest_address,
-                                                    "contact_phone": contact_phone,
-                                                    "full_price": parseFloat(price),
-                                                    "other_info": other_info
-                                                    }),
+                        data: JSON.stringify({
+                            "employee_id": parseInt(employee_id),
+                            "client_id": parseInt(client_id),
+                            "destination_address": dest_address,
+                            "contact_phone": contact_phone,
+                            "full_price": parseFloat(price),
+                            "other_info": other_info
+                        }),
                         dataType: 'json'
                     });
                     $('.ui.modal').modal('hide');

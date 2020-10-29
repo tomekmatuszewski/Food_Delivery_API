@@ -16,9 +16,8 @@ def get_distance(address_from: str, address_to: str, road_type: str = "fastest")
         f"&outFormat=json&ambiguities=ignore&routeType={road_type}"
         f"&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false"
     ).json()
-
     return round(float(get_route["route"]["distance"]) * MILES_TO_KM_EFF, 2)
 
 
 if __name__ == "__main__":
-    print(get_distance("Kraków, Czerwone Maki 49", "Kraków, Kuklińskiego 17"))
+    print(get_distance("Kraków, Estery 1", "Kraków,Jana Pawła II 17"))
