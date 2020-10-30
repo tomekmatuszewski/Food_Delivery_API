@@ -4,7 +4,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.main import database
+from app import database
 from app.models import Client, Employee, Order
 from app.routers.utils import get_distance
 from app.schemas import OrderSchema
@@ -42,8 +42,8 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     })
 
 
-def add_distance(order: Order, db: Session, client_id, destination_address):
-    client_address = db.query(Client).get(client_id).address
+def add_distance(order: Order, client_address: str, db: Session, destination_address):
+
     distance = get_distance(client_address, destination_address)
     order.distance = distance
     db.add(order)
@@ -59,14 +59,14 @@ async def create_order(
     order_dict = order_request.dict()
     order = Order(**order_dict)
     order.date = date.today()
-
+    client_address = db.query(Client).get(order_request.client_id).address
     db.add(order)
     db.commit()
     background_task.add_task(
         add_distance,
         order,
+        client_address,
         db,
-        order_request.client_id,
         order_request.destination_address,
     )
 

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.main import database
+from app import database
 from app.models.clients import Client
 from app.schemas.client_schema import ClientSchema
 

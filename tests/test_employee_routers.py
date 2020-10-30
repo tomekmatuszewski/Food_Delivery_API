@@ -1,11 +1,10 @@
-from app.main import app
+from app.main import create_app
 from fastapi.testclient import TestClient
 import pytest
 from app import database
 from app.routers.employees import get_db
-from app.models import Employee
 
-
+app = create_app()
 database.init_db('sqlite://')
 
 
