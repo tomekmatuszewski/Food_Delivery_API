@@ -1,12 +1,23 @@
-.navbar
+body
+{
+    background-color: #F3F4EC !important;
+}
+
+
+.buttons-panel
 {
     display: flex;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
-.navbar #add-order
+.buttons-panel #add-order
 {
     margin-right: 0;
     margin-left: auto;
+}
+
+.ui.menu:first-child
+{
+    margin-top: 20px !important;
 }

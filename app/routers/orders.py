@@ -34,7 +34,7 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     orders = db.query(Order)
     employees = db.query(Employee)
     clients = db.query(Client)
-    return templates.TemplateResponse("home.html", context={
+    return templates.TemplateResponse("orders.html", context={
         "request": request,
         "orders": orders,
         "employees": employees,
@@ -71,3 +71,6 @@ async def create_order(
     )
 
     return order_dict
+
+
+

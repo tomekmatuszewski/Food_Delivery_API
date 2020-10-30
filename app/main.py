@@ -15,5 +15,6 @@ def create_app():
     app.include_router(routers.orders, prefix="/fast_delivery", tags=["orders"])
     app.include_router(routers.employees, prefix="/fast_delivery", tags=["employees"])
     app.include_router(routers.clients, prefix="/fast_delivery", tags=["clients"])
+    app.include_router(routers.home, prefix="/fast_delivery")
 
     return app
