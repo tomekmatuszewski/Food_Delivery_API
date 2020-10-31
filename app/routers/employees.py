@@ -1,11 +1,11 @@
 from pathlib import Path
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app import database
-from app.models.employees import Employee
+from app import Employee
 from app.schemas.employee_schema import EmployeeSchema
 
 BASE_DIR = Path(__file__).parent.parent.parent
@@ -29,3 +29,18 @@ async def add_employee(emp_request: EmployeeSchema, db: Session = Depends(get_db
     db.add(employee)
     db.commit()
     return emp_dict
+
+
+@employees.get("/employees")
+async def get_all_employees(request: Request, db: Session = Depends(get_db)):
+    """
+    Display all clients from db
+    :param request:
+    :param db: session of database
+    :return:
+    """
+    employees = db.query(Employee)
+    return templates.TemplateResponse("employees.html", context={
+        "request": request,
+        "employees": employees,
+    })

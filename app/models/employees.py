@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
@@ -12,6 +12,13 @@ class Employee(Base):
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(150))
     last_name = Column(String(150))
+    gender = Column(String(6))
+    date_of_birth = Column(String(150))
+    address = Column(String(150))
+    phone = Column(String(15))
+    email = Column(String(100))
+    id_number = Column(String(11), unique=True)
+    salary = Column(Float())
 
     orders = relationship("Order", back_populates="employee")
 

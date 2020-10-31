@@ -18,3 +18,4 @@ def create_app():
     app.include_router(routers.home, prefix="/fast_delivery")
 
     return app
+

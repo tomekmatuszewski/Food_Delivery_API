@@ -11,6 +11,11 @@ class Client(Base):
     id = Column(Integer, primary_key=True, index=True)
     company_name = Column(String(150))
     address = Column(String(150))
+    contact_person = Column(String(150))
+    phone = Column(String(15))
+    email = Column(String(150))
+    tax_identification_number = Column(String(12), unique=True)
+    company_id = Column(String(9), unique=True)
 
     orders = relationship("Order", back_populates="client")
 

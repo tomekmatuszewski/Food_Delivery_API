@@ -7,19 +7,20 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app import database
 from app.main import create_app
+from app.database import Database
 from app.models import Client, Order
 from app.routers.orders import get_db
 from app.routers.utils import get_distance
 
-app = create_app()
 BASE_DIR = Path(__file__).parent
+app = create_app()
+
 
 @pytest.fixture(name="db")
 def create_db() -> Session:
-    database.init_db(f"sqlite:///{BASE_DIR}/test.db")
-    db = database.SessionLocal()
+    test_db = Database(f"sqlite:///{BASE_DIR}/test.db")
+    db = test_db.SessionLocal()
     yield db
     os.remove(f"{BASE_DIR}/test.db")
 
@@ -35,6 +36,7 @@ def client(db) -> TestClient:
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as client:
         yield client
+
 
 test_order = [
     {
@@ -66,9 +68,18 @@ def test_get_distance(mock_get):
     assert value == 1.61
 
 
+test_client = {"company_name": "Test name",
+               "address": "test_address",
+               "contact_person": "Test Person",
+               "phone": "000-000-000",
+               "email": "test@demo.pl",
+               "tax_identification_number": "000000000",
+               "company_id": "0000"}
+
+
 @patch('app.routers.utils.requests.get')
 def test_add_order(mock_get, client, db):
-    cli1 = Client(company_name="Test name", address="Kraków, Address")
+    cli1 = Client(**test_client)
     db.add(cli1)
     db.commit()
     mock_get.json.return_value = {"distance": 1.0}

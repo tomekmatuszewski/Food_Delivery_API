@@ -3,7 +3,6 @@ body
     background-color: #F3F4EC !important;
 }
 
-
 .buttons-panel
 {
     display: flex;
@@ -11,7 +10,7 @@ body
     margin-top: 20px;
 }
 
-.buttons-panel #add-order
+.buttons-panel #add-order,#add-client,#add-employee
 {
     margin-right: 0;
     margin-left: auto;

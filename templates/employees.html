@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        <main>
+            <div class="buttons-panel">
+                <div id="add-employee" class="ui vertical animated button" tabindex="0">
+                  <div class="hidden content">
+                      <i class="plus icon"></i>
+                  </div>
+                  <div class="visible content">Add Employee</div>
+                </div>
+            </div>
+            
+            <table id="order-table" class="ui celled table">
+                  <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>ID Number</th>
+                        <th>Salary</th>
+                        <th>Edit / Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.id }}</td>
+                        <td>{{ employee.first_name }}</td>
+                        <td>{{ employee.last_name }}</td>
+                        <td>{{ employee.gender }}</td>
+                        <td>{{ employee.date_of_birth }}</td>
+                        <td>{{ employee.address }}</td>
+                        <td>{{ employee.phone }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.id_number }}</td>
+                        <td>{{ employee.salary }}</td>
+                        <td>
+                            <i class="edit icon"></i>
+                            <i class="trash alternate icon"></i>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+
+             <div class="ui modal">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Add Employee
+                  </div>
+                  <div class="content">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>First Name</label>
+                                <input type="text" id="first_name">
+                            </div>
+                             <div class="field">
+                                <label>Last Name</label>
+                                <input type="text" id="last_name">
+                            </div>
+                            <div class="field">
+                                <label>Gender</label>
+                                <select class="ui dropdown" id="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Date of Birth</label>
+                                <input id="date_birth" placeholder="YYYY-MM-DD">
+                            </div>
+                            <div class="field">
+                                <label>Address</label>
+                                <input id="emp_address" placeholder="Postal Code City, Street Num.">
+                            </div>
+                            <div class="field">
+                                <label>Contact Phone</label>
+                                <input id="emp_phone" placeholder="000-000-000">
+                            </div>
+                            <div class="field">
+                                <label>Email</label>
+                                <input id="emp_email" placeholder="name@addres.com">
+                            </div>
+                            <div class="field">
+                                <label>ID Number</label>
+                                <input id="emp_id" placeholder="11223344555">
+                            </div>
+                            <div class="field">
+                                <label>Salary</label>
+                                <input id="salary" placeholder="3000.00">
+                            </div>
+                        </div>
+                  </div>
+                  <div class="actions">
+                    <div id="save" class="ui positive right labeled icon button">
+                      Add Employee
+                      <i class="plus icon"></i>
+                    </div>
+                  </div>
+             </div>
+
+        </main>
+
+{% endblock %}

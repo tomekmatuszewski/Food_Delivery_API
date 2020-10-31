@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app import database
-from app.models import Client, Employee, Order
+from app import Client, Employee, Order
 from app.routers.utils import get_distance
 from app.schemas import OrderSchema
 

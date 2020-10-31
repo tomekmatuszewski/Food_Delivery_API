@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <header>
+
+        <main>
             <div class="buttons-panel">
                 <div id="add-order" class="ui vertical animated button" tabindex="0">
                   <div class="hidden content">
@@ -10,9 +11,7 @@
                   <div class="visible content">New Order</div>
                 </div>
             </div>
-        </header>
 
-        <main>
             <table id="order-table" class="ui celled table">
                   <thead>
                     <tr>
@@ -25,6 +24,7 @@
                         <th>Price</th>
                         <th>Distance</th>
                         <th>Additional Info</th>
+                        <th>Edit / Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,6 +39,10 @@
                         <td>{{ "%.2f PLN"|format(order.full_price|float) }}</td>
                         <td>{{ "%.2f km"|format(order.distance|float) }}</td>
                         <td>{{ order.other_info }}</td>
+                        <td>
+                            <i class="edit icon"></i>
+                            <i class="trash alternate icon"></i>
+                        </td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -95,5 +99,4 @@
 
         </main>
 
-        <footer></footer>
 {% endblock %}
