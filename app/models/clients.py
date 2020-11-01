@@ -1,3 +1,5 @@
+from typing import Dict
+
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -21,3 +23,8 @@ class Client(Base):
 
     def __repr__(self):
         return f"{self.company_name}, address: {self.address}"
+
+    def to_dict(self) -> Dict:
+        return {"id": self.id, "company_name": self.company_name, "address": self.address,
+                "contact_person": self.contact_person, "phone": self.phone, "email": self.email,
+                "tax_identification_number": self.tax_identification_number, "company_id": self.company_id}

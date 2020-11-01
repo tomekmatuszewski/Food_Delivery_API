@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 import os
 from pathlib import Path
 from unittest.mock import patch
@@ -7,8 +6,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.main import create_app
 from app.database import Database
+from app.main import create_app
 from app.models import Client, Order
 from app.routers.orders import get_db
 from app.routers.utils import get_distance
@@ -44,15 +43,15 @@ test_order = [
         "client_id": 1,
         "contact_phone": "000-000-000",
         "destination_address": "Kraków, Wielopole 1",
-        "full_price": 150
+        "full_price": 150,
     },
     {
         "employee_id": 1,
         "client_id": 1,
         "contact_phone": 55,
         "destination_address": "Kraków, Wielopole 1",
-        "full_price": 150
-    }
+        "full_price": 150,
+    },
 ]
 
 
@@ -61,23 +60,19 @@ def test_get_orders(client):
     assert response.status_code == 200
 
 
-@patch('app.routers.utils.requests.get')
-def test_get_distance(mock_get):
-    mock_get.json.return_value = {"distance": 1.0}
-    value = get_distance("Test address", "Test_address")
-    assert value == 1.61
+
+test_client = {
+    "company_name": "Test name",
+    "address": "test_address",
+    "contact_person": "Test Person",
+    "phone": "000-000-000",
+    "email": "test@demo.pl",
+    "tax_identification_number": "000000000",
+    "company_id": "0000",
+}
 
 
-test_client = {"company_name": "Test name",
-               "address": "test_address",
-               "contact_person": "Test Person",
-               "phone": "000-000-000",
-               "email": "test@demo.pl",
-               "tax_identification_number": "000000000",
-               "company_id": "0000"}
-
-
-@patch('app.routers.utils.requests.get')
+@patch("app.routers.utils.requests.get")
 def test_add_order(mock_get, client, db):
     cli1 = Client(**test_client)
     db.add(cli1)

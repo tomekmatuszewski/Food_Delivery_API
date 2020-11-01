@@ -1,6 +1,7 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 
@@ -18,4 +19,3 @@ def create_app():
     app.include_router(routers.home, prefix="/fast_delivery")
 
     return app
-

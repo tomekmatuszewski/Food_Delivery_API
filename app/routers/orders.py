@@ -1,12 +1,14 @@
-from datetime import date
 from pathlib import Path
+from typing import Dict
+
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app import database
-from app import Client, Employee, Order
-from app.routers.utils import get_distance
+from app.crud import clients as crud_cli
+from app.crud import employees as crud_emp
+from app.crud import orders as crud_ord
 from app.schemas import OrderSchema
 
 BASE_DIR = Path(__file__).parent.parent.parent
@@ -14,7 +16,7 @@ templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 orders = APIRouter()
 
 
-def get_db():
+def get_db() -> Session:
     global db
     try:
         db = database.SessionLocal()
@@ -31,23 +33,18 @@ async def get_all_orders(request: Request, db: Session = Depends(get_db)):
     :param db: session of database
     :return:
     """
-    orders = db.query(Order)
-    employees = db.query(Employee)
-    clients = db.query(Client)
-    return templates.TemplateResponse("orders.html", context={
-        "request": request,
-        "orders": orders,
-        "employees": employees,
-        "clients": clients,
-    })
-
-
-def add_distance(order: Order, client_address: str, db: Session, destination_address):
-
-    distance = get_distance(client_address, destination_address)
-    order.distance = distance
-    db.add(order)
-    db.commit()
+    orders = crud_ord.get_orders(db)
+    employees = crud_emp.get_employee(db)
+    clients = crud_cli.get_clients(db)
+    return templates.TemplateResponse(
+        "orders.html",
+        context={
+            "request": request,
+            "orders": orders,
+            "employees": employees,
+            "clients": clients,
+        },
+    )
 
 
 @orders.post("/orders")
@@ -55,22 +52,14 @@ async def create_order(
     order_request: OrderSchema,
     background_task: BackgroundTasks,
     db: Session = Depends(get_db),
-):
+) -> Dict:
     order_dict = order_request.dict()
-    order = Order(**order_dict)
-    order.date = date.today()
-    client_address = db.query(Client).get(order_request.client_id).address
-    db.add(order)
-    db.commit()
+    order = crud_ord.post_order(order_dict, db)
     background_task.add_task(
-        add_distance,
+        crud_ord.post_order_distance,
         order,
-        client_address,
+        order_dict,
         db,
-        order_request.destination_address,
     )
 
-    return order_dict
-
-
-
+    return order.to_dict()

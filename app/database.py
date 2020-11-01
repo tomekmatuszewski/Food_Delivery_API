@@ -20,13 +20,16 @@ class Database:
         if database_uri is None:
             db_file_path = pathlib.Path(__file__).parent.parent / "fast_delivery.db"
             database_uri = f"sqlite:///{db_file_path}"
-        self.engine = create_engine(database_uri, connect_args={"check_same_thread": False})
+        self.engine = create_engine(
+            database_uri, connect_args={"check_same_thread": False}
+        )
 
     def init_db(self):
         self.setup_engine(self.database_uri)
-        self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+        self.SessionLocal = sessionmaker(
+            autocommit=False, autoflush=False, bind=self.engine
+        )
         Base.metadata.create_all(bind=self.engine)
-
 
 
 # def setup_engine(database_uri=None):
@@ -39,6 +42,3 @@ class Database:
 #
 # engine = setup_engine()
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-

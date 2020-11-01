@@ -1,5 +1,6 @@
-from app.routers.utils import get_distance
 from unittest.mock import patch
+
+from app.routers.utils import get_distance
 
 
 @patch("app.routers.utils.requests.get")

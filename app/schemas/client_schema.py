@@ -9,4 +9,3 @@ class ClientSchema(BaseModel):
     email: StrictStr
     tax_identification_number: StrictStr
     company_id: StrictStr
-

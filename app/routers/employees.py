@@ -1,11 +1,12 @@
 from pathlib import Path
+from typing import Dict
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app import database
-from app import Employee
+from app import Employee, database
+from app.crud import employees as crud
 from app.schemas.employee_schema import EmployeeSchema
 
 BASE_DIR = Path(__file__).parent.parent.parent
@@ -22,25 +23,22 @@ def get_db():
         db.close()
 
 
-@employees.post("/employee/add")
-async def add_employee(emp_request: EmployeeSchema, db: Session = Depends(get_db)):
+@employees.post("/employees")
+async def add_employee(
+    emp_request: EmployeeSchema, db: Session = Depends(get_db)
+) -> Dict:
     emp_dict = emp_request.dict()
-    employee = Employee(**emp_dict)
-    db.add(employee)
-    db.commit()
-    return emp_dict
+    employee = crud.post_employee(emp_dict, db)
+    return employee.to_dict()
 
 
 @employees.get("/employees")
 async def get_all_employees(request: Request, db: Session = Depends(get_db)):
-    """
-    Display all clients from db
-    :param request:
-    :param db: session of database
-    :return:
-    """
-    employees = db.query(Employee)
-    return templates.TemplateResponse("employees.html", context={
-        "request": request,
-        "employees": employees,
-    })
+    employees = crud.get_employee(db)
+    return templates.TemplateResponse(
+        "employees.html",
+        context={
+            "request": request,
+            "employees": employees,
+        },
+    )
