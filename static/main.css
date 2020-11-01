@@ -20,3 +20,23 @@ body
 {
     margin-top: 20px !important;
 }
+
+#client-table .delete-edit, #emp-table .delete-edit, #order-table .delete-edit
+{
+    text-align: center;
+    width: 5%;
+}
+
+#client-table a, #emp-table a, #order-table a
+{
+    display: inline-block;
+    color: #343232;
+    margin-top: 5px;
+}
+
+#client-table a:hover, #emp-table a:hover, #order-table a:hover
+{
+    color: #a42020;
+}
+
+

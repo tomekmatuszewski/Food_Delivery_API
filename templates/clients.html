@@ -12,7 +12,7 @@
                 </div>
             </div>
             
-            <table id="order-table" class="ui celled table">
+            <table id="client-table" class="ui celled table">
                   <thead>
                     <tr>
                         <th>Id</th>
@@ -37,9 +37,9 @@
                         <td>{{ client.email }}</td>
                         <td>{{ client.tax_identification_number }}</td>
                         <td>{{ client.company_id }}</td>
-                        <td>
-                            <i class="edit icon"></i>
-                            <i class="trash alternate icon"></i>
+                        <td class="delete-edit">
+                            <a class="edit-item" href="#"><i class="edit icon"></i></a>
+                            <a class="delete-item" href="{{ url_for('delete_client', client_id=client.id) }}"><i class="trash alternate icon"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

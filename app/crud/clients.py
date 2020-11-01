@@ -25,3 +25,11 @@ def post_client(client_dict: Dict, db: Session) -> Client:
     db.add(client)
     db.commit()
     return client
+
+
+def delete_client(client_id: str, db: Session) -> None:
+    client = db.query(Client).get(client_id)
+    db.delete(client)
+    db.commit()
+
+

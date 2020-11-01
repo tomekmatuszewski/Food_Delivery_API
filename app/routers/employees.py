@@ -4,6 +4,7 @@ from typing import Dict
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
+from fastapi.responses import RedirectResponse
 
 from app import Employee, database
 from app.crud import employees as crud
@@ -42,3 +43,9 @@ async def get_all_employees(request: Request, db: Session = Depends(get_db)):
             "employees": employees,
         },
     )
+
+
+@employees.get("/employee/{employee_id}/delete")
+async def delete_employee(employee_id: str, db: Session = Depends(get_db),):
+    crud.delete_employee(employee_id, db)
+    return RedirectResponse(f"/fast_delivery{employees.url_path_for('get_all_employees')}")

@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app import database
@@ -42,3 +43,10 @@ async def get_all_clients(request: Request, db: Session = Depends(get_db)):
             "clients": clients,
         },
     )
+
+
+@clients.get("/client/{client_id}/delete")
+async def delete_client(client_id: str, db: Session = Depends(get_db),):
+    crud.delete_client(client_id, db)
+    return RedirectResponse(f"/fast_delivery{clients.url_path_for('get_all_clients')}")
+

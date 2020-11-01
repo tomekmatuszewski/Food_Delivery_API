@@ -23,3 +23,9 @@ def post_employee(emp_dict: Dict, db: Session) -> Employee:
     db.add(employee)
     db.commit()
     return employee
+
+
+def delete_employee(employee_id: str, db: Session) -> None:
+    employee = db.query(Employee).get(employee_id)
+    db.delete(employee)
+    db.commit()

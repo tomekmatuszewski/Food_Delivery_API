@@ -39,9 +39,11 @@
                         <td>{{ "%.2f PLN"|format(order.full_price|float) }}</td>
                         <td>{{ "%.2f km"|format(order.distance|float) }}</td>
                         <td>{{ order.other_info }}</td>
-                        <td>
-                            <i class="edit icon"></i>
-                            <i class="trash alternate icon"></i>
+                        <td class="delete-edit">
+                            <a class="edit-item" href="#"><i class="edit icon"></i></a>
+                            <a class="delete-item" href="{{ url_for('delete_order', order_id=order.id) }}">
+                                <i class="trash alternate icon"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}

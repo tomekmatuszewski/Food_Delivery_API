@@ -4,7 +4,7 @@ from typing import Dict
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-
+from fastapi.responses import RedirectResponse
 from app import database
 from app.crud import clients as crud_cli
 from app.crud import employees as crud_emp
@@ -63,3 +63,9 @@ async def create_order(
     )
 
     return order.to_dict()
+
+
+@orders.get("/order/{order_id}/delete")
+async def delete_order(order_id: str, db: Session = Depends(get_db),):
+    crud_ord.delete_order(order_id, db)
+    return RedirectResponse(f"/fast_delivery{orders.url_path_for('get_all_orders')}")

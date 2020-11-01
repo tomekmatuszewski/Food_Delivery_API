@@ -37,3 +37,9 @@ def post_order_distance(
     order.distance = distance
     db.add(order)
     db.commit()
+
+
+def delete_order(order_id: str, db: Session) -> None:
+    order = db.query(Order).get(order_id)
+    db.delete(order)
+    db.commit()
