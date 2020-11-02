@@ -1,6 +1,6 @@
 from pathlib import Path
-from typing import Dict, Optional
-
+from typing import Dict
+from app import Client
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
@@ -45,8 +45,19 @@ async def get_all_clients(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@clients.get("/client/{client_id}/delete")
-async def delete_client(client_id: str, db: Session = Depends(get_db),):
+@clients.delete("/clients/{client_id}/delete")
+async def delete_client(client_id: str, db: Session = Depends(get_db),) -> None:
     crud.delete_client(client_id, db)
-    return RedirectResponse(f"/fast_delivery{clients.url_path_for('get_all_clients')}")
+
+
+
+@clients.put("/clients/{client_id}/update")
+async def update_client(client_request: ClientSchema, client_id: str, db: Session = Depends(get_db),):
+    client_dict = client_request.dict()
+    client_query = db.query(Client).filter(Client.id == client_id)
+    client_query.update(client_dict)
+    db.commit()
+    return client_dict
+
+
 

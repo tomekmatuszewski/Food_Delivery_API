@@ -4,7 +4,7 @@
 
         <main>
             <div class="buttons-panel">
-                <div id="add-employee" class="ui vertical animated button" tabindex="0">
+                <div onclick="addEmployee();" id="add-employee" class="ui vertical animated button" tabindex="0">
                   <div class="hidden content">
                       <i class="plus icon"></i>
                   </div>
@@ -42,17 +42,19 @@
                         <td>{{ employee.id_number }}</td>
                         <td>{{ employee.salary }}</td>
                         <td class="delete-edit">
-                            <a class="edit-item" href="#"><i class="edit icon"></i></a>
-                            <a class="delete-item" href="{{ url_for('delete_employee', employee_id=employee.id) }}">
+                            <button onclick="updateEmployee(this);" class="edit-item">
+                                <i class="edit icon"></i>
+                            </button>
+                            <button onclick="deleteEmployee(this);" class="delete-item">
                                 <i class="trash alternate icon"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
                   </tbody>
             </table>
 
-             <div class="ui modal">
+             <div id="new-employee" class="ui modal">
                   <i class="close icon"></i>
                   <div class="header">
                     Add Employee
@@ -61,52 +63,128 @@
                         <div class="ui form">
                             <div class="field">
                                 <label>First Name</label>
-                                <input type="text" id="first_name">
+                                <input type="text" class="first_name">
                             </div>
                              <div class="field">
                                 <label>Last Name</label>
-                                <input type="text" id="last_name">
+                                <input type="text" class="last_name">
                             </div>
                             <div class="field">
                                 <label>Gender</label>
-                                <select class="ui dropdown" id="gender">
+                                <select class="ui dropdown" title="gender">
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
                             </div>
                             <div class="field">
                                 <label>Date of Birth</label>
-                                <input id="date_of_birth" placeholder="YYYY-MM-DD">
+                                <input class="date_of_birth" placeholder="YYYY-MM-DD">
                             </div>
                             <div class="field">
                                 <label>Address</label>
-                                <input id="address" placeholder="Postal Code City, Street Num.">
+                                <input class="address" placeholder="Postal Code City, Street Num.">
                             </div>
                             <div class="field">
                                 <label>Contact Phone</label>
-                                <input id="phone" placeholder="000-000-000">
+                                <input class="phone" placeholder="000-000-000">
                             </div>
                             <div class="field">
                                 <label>Email</label>
-                                <input id="email" placeholder="name@addres.com">
+                                <input class="email" placeholder="name@addres.com">
                             </div>
                             <div class="field">
                                 <label>ID Number</label>
-                                <input id="id_number" placeholder="11223344555">
+                                <input class="id_number" placeholder="11223344555">
                             </div>
                             <div class="field">
                                 <label>Salary</label>
-                                <input id="salary" placeholder="3000.00">
+                                <input class="salary" placeholder="3000.00">
                             </div>
                         </div>
                   </div>
                   <div class="actions">
-                    <div id="save_emp" class="ui positive right labeled icon button">
+                    <div onclick="saveEmployee();" id="save-emp" class="ui positive right labeled icon button">
                       Add Employee
                       <i class="plus icon"></i>
                     </div>
                   </div>
              </div>
+
+            <div id="edit-employee" class="ui modal">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Add Employee <span></span>
+                  </div>
+                  <div class="content">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>First Name</label>
+                                <input type="text" class="first_name">
+                            </div>
+                             <div class="field">
+                                <label>Last Name</label>
+                                <input type="text" class="last_name">
+                            </div>
+                            <div class="field">
+                                <label>Gender</label>
+                                <select class="ui dropdown" title="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Date of Birth</label>
+                                <input class="date_of_birth" placeholder="YYYY-MM-DD">
+                            </div>
+                            <div class="field">
+                                <label>Address</label>
+                                <input class="address" placeholder="Postal Code City, Street Num.">
+                            </div>
+                            <div class="field">
+                                <label>Contact Phone</label>
+                                <input class="phone" placeholder="000-000-000">
+                            </div>
+                            <div class="field">
+                                <label>Email</label>
+                                <input class="email" placeholder="name@addres.com">
+                            </div>
+                            <div class="field">
+                                <label>ID Number</label>
+                                <input class="id_number" placeholder="11223344555">
+                            </div>
+                            <div class="field">
+                                <label>Salary</label>
+                                <input class="salary" placeholder="3000.00">
+                            </div>
+                        </div>
+                  </div>
+                  <div class="actions">
+                        <div onclick="saveUpdatedEmployee();" class="ui positive right labeled icon button">
+                          Update Employee
+                          <i class="plus icon"></i>
+                        </div>
+                  </div>
+             </div>
+
+             <div id="delete-emp" class="ui basic modal">
+                  <div class="ui icon header">
+                    <i class="archive icon"></i>
+                    Delete Employee
+                  </div>
+                  <div class="content">
+                    <p>Are you sure you want to remove the Employee <span></span> ?</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui red basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      No
+                    </div>
+                    <div onclick="deleteEmployeeConfirm();" class="ui green ok inverted button">
+                      <i class="checkmark icon"></i>
+                      Yes
+                    </div>
+                  </div>
+            </div>
 
         </main>
 

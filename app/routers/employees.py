@@ -45,7 +45,16 @@ async def get_all_employees(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@employees.get("/employee/{employee_id}/delete")
-async def delete_employee(employee_id: str, db: Session = Depends(get_db),):
-    crud.delete_employee(employee_id, db)
-    return RedirectResponse(f"/fast_delivery{employees.url_path_for('get_all_employees')}")
+@employees.delete("/employees/{emp_id}/delete")
+async def delete_employee(emp_id: str, db: Session = Depends(get_db)):
+    crud.delete_employee(emp_id, db)
+
+
+@employees.put("/employees/{emp_id}/update")
+async def update_employee(emp_request: EmployeeSchema, emp_id: str, db: Session = Depends(get_db)):
+    emp_dict = emp_request.dict()
+    emp_query = db.query(Employee).filter(Employee.id == emp_id)
+    emp_query.update(emp_dict)
+    db.commit()
+    return emp_dict
+

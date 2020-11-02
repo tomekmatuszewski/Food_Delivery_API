@@ -4,7 +4,7 @@
 
         <main>
             <div class="buttons-panel">
-                <div id="add-client" class="ui vertical animated button" tabindex="0">
+                <div onclick="addClient();" id="add-client" class="ui vertical animated button" tabindex="0">
                   <div class="hidden content">
                       <i class="plus icon"></i>
                   </div>
@@ -38,15 +38,19 @@
                         <td>{{ client.tax_identification_number }}</td>
                         <td>{{ client.company_id }}</td>
                         <td class="delete-edit">
-                            <a class="edit-item" href="#"><i class="edit icon"></i></a>
-                            <a class="delete-item" href="{{ url_for('delete_client', client_id=client.id) }}"><i class="trash alternate icon"></i></a>
+                            <button class="edit-item" onclick="updateClient(this);">
+                                <i class="edit icon"></i>
+                            </button>
+                            <button onclick="deleteClient(this);" class="delete-item">
+                                <i class="trash alternate icon"></i>
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
                   </tbody>
             </table>
 
-             <div class="ui modal">
+             <div id="new-client" class="ui modal">
                   <i class="close icon"></i>
                   <div class="header">
                     Add Client
@@ -55,41 +59,106 @@
                         <div class="ui form">
                             <div class="field">
                                 <label>Company Name</label>
-                                <input type="text" id="company_name">
+                                <input type="text" class="company_name">
                             </div>
                              <div class="field">
                                 <label>Address</label>
-                                <input type="text" id="address">
+                                <input type="text" class="address">
                             </div>
                             <div class="field">
                                 <label>Contact Person</label>
-                                <input type="text" id="contact_person">
+                                <input type="text" class="contact_person">
                             </div>
                             <div class="field">
                                 <label>Contact Phone</label>
-                                <input id="phone">
+                                <input class="phone">
                             </div>
                             <div class="field">
                                 <label>Email</label>
-                                <input id="email" placeholder="name@address.com">
+                                <input class="email" placeholder="name@address.com">
                             </div>
                             <div class="field">
                                 <label>Tax Identification Number</label>
-                                <input id="tax_identification_number">
+                                <input class="tax_identification_number">
                             </div>
                             <div class="field">
                                 <label>Regon</label>
-                                <input id="company_id">
+                                <input class="company_id">
                             </div>
                         </div>
                   </div>
                   <div class="actions">
-                    <div id="save_client" class="ui positive right labeled icon button">
+                    <div onclick="saveClient();" id="save_client" class="ui positive right labeled icon button">
                       Add Client
                       <i class="plus icon"></i>
                     </div>
                   </div>
              </div>
+
+            <div id="edit-client" class="ui modal">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Update Client <span></span>
+                  </div>
+                  <div class="content">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>Company Name</label>
+                                <input type="text" class="company_name">
+                            </div>
+                             <div class="field">
+                                <label>Address</label>
+                                <input type="text" class="address">
+                            </div>
+                            <div class="field">
+                                <label>Contact Person</label>
+                                <input type="text" class="contact_person">
+                            </div>
+                            <div class="field">
+                                <label>Contact Phone</label>
+                                <input class="phone">
+                            </div>
+                            <div class="field">
+                                <label>Email</label>
+                                <input class="email" placeholder="name@address.com">
+                            </div>
+                            <div class="field">
+                                <label>Tax Identification Number</label>
+                                <input class="tax_identification_number">
+                            </div>
+                            <div class="field">
+                                <label>Regon</label>
+                                <input class="company_id">
+                            </div>
+                        </div>
+                  </div>
+                  <div class="actions">
+                    <div onclick="saveUpdatedClient();" id="update-client" class="ui positive right labeled icon button">
+                      Update
+                      <i class="plus icon"></i>
+                    </div>
+                  </div>
+             </div>
+
+            <div id="delete-client" class="ui basic modal">
+                  <div class="ui icon header">
+                    <i class="archive icon"></i>
+                    Delete Client
+                  </div>
+                  <div class="content">
+                    <p>Are you sure you want to remove the client <span></span> ?</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui red basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      No
+                    </div>
+                    <div onclick="deleteClientConfirm();" class="ui green ok inverted button">
+                      <i class="checkmark icon"></i>
+                      Yes
+                    </div>
+                  </div>
+            </div>
 
         </main>
 

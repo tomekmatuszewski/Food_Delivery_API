@@ -5,7 +5,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from fastapi.responses import RedirectResponse
-from app import database
+from app import database, Order
 from app.crud import clients as crud_cli
 from app.crud import employees as crud_emp
 from app.crud import orders as crud_ord
@@ -69,3 +69,13 @@ async def create_order(
 async def delete_order(order_id: str, db: Session = Depends(get_db),):
     crud_ord.delete_order(order_id, db)
     return RedirectResponse(f"/fast_delivery{orders.url_path_for('get_all_orders')}")
+
+
+@orders.put("/orders/{order_id}/update")
+async def update_order(order_request: OrderSchema, order_id: str, db: Session = Depends(get_db)):
+    order_dict = order_request.dict()
+    order_query = db.query(Order).filter(Order.id == order_id)
+    order_query.update(order_dict)
+    db.commit()
+    order_updated = db.query(Order).filter_by(id=order_id).first()
+    return order_updated.to_dict()

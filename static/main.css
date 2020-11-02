@@ -24,7 +24,7 @@ body
 #client-table .delete-edit, #emp-table .delete-edit, #order-table .delete-edit
 {
     text-align: center;
-    width: 5%;
+    width: 7%;
 }
 
 #client-table a, #emp-table a, #order-table a
@@ -35,6 +35,22 @@ body
 }
 
 #client-table a:hover, #emp-table a:hover, #order-table a:hover
+{
+    color: #a42020;
+}
+
+table button
+{
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    margin-top: 5px;
+    color: #343232;
+    float: left;
+
+}
+
+table button:hover
 {
     color: #a42020;
 }
