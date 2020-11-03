@@ -23,7 +23,7 @@ def post_order(order_dict: Dict, db: Session) -> Order:
     :return: added client to db
     """
     order = Order(**order_dict)
-    order.date = date.today()
+    order.date = date.today().strftime('%Y-%m-%d')
     db.add(order)
     db.commit()
     return order
@@ -43,3 +43,11 @@ def delete_order(order_id: str, db: Session) -> None:
     order = db.query(Order).get(order_id)
     db.delete(order)
     db.commit()
+
+
+def update_order(order_id: str, db: Session, order_dict: Dict) -> Order:
+    order_query = db.query(Order).filter(Order.id == order_id)
+    order_query.update(order_dict)
+    order_updated = db.query(Order).filter_by(id=order_id).first()
+    db.commit()
+    return order_updated

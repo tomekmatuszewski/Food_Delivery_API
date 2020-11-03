@@ -53,8 +53,6 @@ async def delete_employee(emp_id: str, db: Session = Depends(get_db)):
 @employees.put("/employees/{emp_id}/update")
 async def update_employee(emp_request: EmployeeSchema, emp_id: str, db: Session = Depends(get_db)):
     emp_dict = emp_request.dict()
-    emp_query = db.query(Employee).filter(Employee.id == emp_id)
-    emp_query.update(emp_dict)
-    db.commit()
-    return emp_dict
+    emp_updated = crud.update_employee(emp_id=emp_id, db=db, emp_dict=emp_dict)
+    return emp_updated
 

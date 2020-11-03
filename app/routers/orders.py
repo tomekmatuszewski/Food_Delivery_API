@@ -65,17 +65,16 @@ async def create_order(
     return order.to_dict()
 
 
-@orders.get("/order/{order_id}/delete")
+@orders.delete("/orders/{order_id}/delete")
 async def delete_order(order_id: str, db: Session = Depends(get_db),):
     crud_ord.delete_order(order_id, db)
-    return RedirectResponse(f"/fast_delivery{orders.url_path_for('get_all_orders')}")
 
 
 @orders.put("/orders/{order_id}/update")
-async def update_order(order_request: OrderSchema, order_id: str, db: Session = Depends(get_db)):
+async def update_order(order_request: OrderSchema, order_id: str, background_task: BackgroundTasks, db: Session = Depends(get_db)):
     order_dict = order_request.dict()
-    order_query = db.query(Order).filter(Order.id == order_id)
-    order_query.update(order_dict)
-    db.commit()
-    order_updated = db.query(Order).filter_by(id=order_id).first()
+    order_updated = crud_ord.update_order(order_id=order_id, db=db, order_dict=order_dict)
+
+    background_task.add_task(crud_ord.post_order_distance, order_updated, order_dict, db)
+
     return order_updated.to_dict()

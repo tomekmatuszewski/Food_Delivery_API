@@ -29,7 +29,7 @@ async def add_client(
     client_request: ClientSchema, db: Session = Depends(get_db)
 ) -> Dict:
     client_dict = client_request.dict()
-    client = crud.post_client(client_dict, db)
+    client = crud.post_client(client_dict=client_dict, db=db)
     return client.to_dict()
 
 
@@ -47,17 +47,14 @@ async def get_all_clients(request: Request, db: Session = Depends(get_db)):
 
 @clients.delete("/clients/{client_id}/delete")
 async def delete_client(client_id: str, db: Session = Depends(get_db),) -> None:
-    crud.delete_client(client_id, db)
-
+    crud.delete_client(client_id=client_id, db=db)
 
 
 @clients.put("/clients/{client_id}/update")
 async def update_client(client_request: ClientSchema, client_id: str, db: Session = Depends(get_db),):
     client_dict = client_request.dict()
-    client_query = db.query(Client).filter(Client.id == client_id)
-    client_query.update(client_dict)
-    db.commit()
-    return client_dict
+    client_updated = crud.update_client(client_id=client_id, db=db, client_dict=client_dict)
+    return client_updated
 
 
 

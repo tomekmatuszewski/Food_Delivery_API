@@ -33,3 +33,11 @@ def delete_client(client_id: str, db: Session) -> None:
     db.commit()
 
 
+def update_client(client_id: str, db: Session, client_dict: Dict) -> Dict:
+    client_query = db.query(Client).filter(Client.id == client_id)
+    client_query.update(client_dict)
+    client_updated = db.query(Client).filter_by(id=client_id).first()
+    db.commit()
+    return client_updated.to_dict()
+
+

@@ -35,7 +35,7 @@ test_employee = {
     "phone": "000-000-000",
     "email": "test@demo.pl",
     "id_number": "11111111111",
-    "salary": 30000,
+    "salary": 3000,
 }
 
 
@@ -51,4 +51,37 @@ def test_add_employee(client):
                                'id_number': '11111111111',
                                'last_name': 'lastname',
                                'phone': '000-000-000',
-                               'salary': 30000.0}
+                               'salary': 3000.0}
+
+
+emp_updated = {
+    "first_name": "Test name1",
+    "last_name": "lastname1",
+    "gender": "F",
+    "date_of_birth": "1990-01-01",
+    "address": "Test address",
+    "phone": "000-000-000",
+    "email": "test@demo.pl",
+    "id_number": "11111111111",
+    "salary": 2000,
+}
+
+
+def test_update_employee(client):
+    response = client.put("/fast_delivery/employees/1/update", json=emp_updated)
+    assert response.status_code == 200
+    assert response.json() == {'address': 'Test address',
+                               'date_of_birth': '1990-01-01',
+                               'email': 'test@demo.pl',
+                               'first_name': 'Test name1',
+                               'gender': 'F',
+                               'id': 1,
+                               'id_number': '11111111111',
+                               'last_name': 'lastname1',
+                               'phone': '000-000-000',
+                               'salary': 2000.0}
+
+
+def test_delete_employee(client):
+    response = client.delete("/fast_delivery/employees/1/delete")
+    assert response.status_code == 200

@@ -4,7 +4,7 @@
 
         <main>
             <div class="buttons-panel">
-                <div id="add-order" class="ui vertical animated button" tabindex="0">
+                <div id="add-order" class="ui vertical animated button" onclick="addOrder();" tabindex="0">
                   <div class="hidden content">
                       <i class="plus icon"></i>
                   </div>
@@ -21,7 +21,7 @@
                         <th>Destination Address</th>
                         <th>Contact Phone</th>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th>Price [PLN]</th>
                         <th>Distance</th>
                         <th>Additional Info</th>
                         <th>Edit / Delete</th>
@@ -31,26 +31,28 @@
                     {% for order in orders %}
                     <tr>
                         <td>{{ order.id }}</td>
-                        <td>{{ order.employee.full_name }}</td>
-                        <td>{{ order.client.address }}</td>
-                        <td>{{ order.destination_address }}</td>
-                        <td>{{ order.contact_phone }}</td>
+                        <td class="user-select" title="{{ order.employee.id }}">{{ order.employee.full_name }}</td>
+                        <td class="user-select" title="{{ order.client.id }}">{{ order.client.address }}</td>
+                        <td class="user-input">{{ order.destination_address }}</td>
+                        <td class="user-input">{{ order.contact_phone }}</td>
                         <td>{{ order.date }}</td>
-                        <td>{{ "%.2f PLN"|format(order.full_price|float) }}</td>
+                        <td class="user-input">{{ "%.2f"|format(order.full_price|float) }}</td>
                         <td>{{ "%.2f km"|format(order.distance|float) }}</td>
-                        <td>{{ order.other_info }}</td>
+                        <td class="user-input">{{ order.other_info }}</td>
                         <td class="delete-edit">
-                            <a class="edit-item" href="#"><i class="edit icon"></i></a>
-                            <a class="delete-item" href="{{ url_for('delete_order', order_id=order.id) }}">
+                            <button onclick="updateOrder(this);" class="edit-item">
+                                <i class="edit icon"></i>
+                            </button>
+                            <button onclick="deleteOrder(this);" class="delete-item">
                                 <i class="trash alternate icon"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
                   </tbody>
             </table>
 
-             <div class="ui modal">
+             <div id="new-order" class="ui modal">
                   <i class="close icon"></i>
                   <div class="header">
                     Add Order
@@ -59,7 +61,7 @@
                         <div class="ui form">
                             <div class="field">
                                 <label>Employee</label>
-                                <select class="ui dropdown" id="employee_id" >
+                                <select class="ui dropdown" title="employee_id" >
                                     {% for employee in employees %}
                                         <option value="{{ employee.id }}">{{ employee.full_name }}</option>
                                     {% endfor %}
@@ -67,7 +69,7 @@
                             </div>
                             <div class="field">
                                 <label>Client</label>
-                                <select class="ui dropdown" id="client">
+                                <select class="ui dropdown" title="client_id">
                                     {% for client in clients %}
                                         <option value="{{ client.id }}">{{ client }}</option>
                                     {% endfor %}
@@ -75,29 +77,98 @@
                             </div>
                             <div class="field">
                                 <label>Destination Address</label>
-                                <input type="text" id="dest_address" placeholder="City, Street Num">
+                                <input type="text" class="destination_address" placeholder="City, Street Num">
                             </div>
                              <div class="field">
                                 <label>Contact Phone</label>
-                                <input type="text" id="contact_phone" placeholder="000-000-000">
+                                <input type="text" class="contact_phone" placeholder="000-000-000">
                             </div>
                             <div class="field">
                                 <label>Full order price</label>
-                                <input type="text" id="price" placeholder="Price in PLN e.g. 150.00">
+                                <input type="text" class="full_price" placeholder="Price in PLN e.g. 150.00">
                             </div>
                             <div class="field">
                                 <label>Other information</label>
-                                <textarea id="other_information"></textarea>
+                                <textarea class="other_info"></textarea>
                             </div>
                         </div>
                   </div>
                   <div class="actions">
-                    <div id="save" class="ui positive right labeled icon button">
+                    <div id="save-order" onclick="saveOrder();" class="ui positive right labeled icon button">
                       Add order
                       <i class="plus icon"></i>
                     </div>
                   </div>
              </div>
+
+             <div id="edit-order" class="ui modal">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Update Order <span></span>
+                  </div>
+                  <div class="content">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>Employee</label>
+                                <select class="ui dropdown" title="employee_id" >
+                                    {% for employee in employees %}
+                                        <option value="{{ employee.id }}">{{ employee.full_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Client</label>
+                                <select class="ui dropdown" title="client_id">
+                                    {% for client in clients %}
+                                        <option value="{{ client.id }}">{{ client }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Destination Address</label>
+                                <input type="text" class="destination_address" placeholder="City, Street Num">
+                            </div>
+                             <div class="field">
+                                <label>Contact Phone</label>
+                                <input type="text" class="contact_phone" placeholder="000-000-000">
+                            </div>
+                            <div class="field">
+                                <label>Full order price</label>
+                                <input type="text" class="full_price" placeholder="Price in PLN e.g. 150.00">
+                            </div>
+                            <div class="field">
+                                <label>Other information</label>
+                                <textarea class="other_info"></textarea>
+                            </div>
+                        </div>
+                  </div>
+                  <div class="actions">
+                    <div id="update-order" onclick="saveUpdatedOrder();" class="ui positive right labeled icon button">
+                      Update order
+                      <i class="plus icon"></i>
+                    </div>
+                  </div>
+             </div>
+
+            <div id="delete-order" class="ui basic modal">
+                  <div class="ui icon header">
+                    <i class="archive icon"></i>
+                    Delete Order
+                  </div>
+                  <div class="content">
+                    <p>Are you sure you want to remove the Order <span></span> ?</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui red basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      No
+                    </div>
+                    <div onclick="deleteOrderConfirm();" class="ui green ok inverted button">
+                      <i class="checkmark icon"></i>
+                      Yes
+                    </div>
+                  </div>
+            </div>
 
         </main>
 

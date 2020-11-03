@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 from unittest.mock import patch
 from app.database import Database
@@ -19,27 +21,52 @@ def get_db():
         db.close()
 
 
-test_employee = {
-    "first_name": "Joe",
-    "last_name": "Doe",
-    "gender": "M",
-    "date_of_birth": "2000-01-01",
-    "address": "Test address",
-    "phone": "000-000-000",
-    "email": "test@demo.pl",
-    "id_number": "11111111111",
-    "salary": 30000,
-}
+test_employee = [
+    {
+        "first_name": "Joe",
+        "last_name": "Doe",
+        "gender": "M",
+        "date_of_birth": "2000-01-01",
+        "address": "Test address",
+        "phone": "000-000-000",
+        "email": "test@demo.pl",
+        "id_number": "11111111111",
+        "salary": 3000,
+    },
+    {
+        "first_name": "Jack",
+        "last_name": "Doey",
+        "gender": "M",
+        "date_of_birth": "1990-01-01",
+        "address": "Test address1",
+        "phone": "500-900-100",
+        "email": "test1@demo.pl",
+        "id_number": "5454",
+        "salary": 2000,
+    }
+]
 
-test_client = {
-    "company_name": "Test name",
-    "address": "test_address",
-    "contact_person": "Test Person",
-    "phone": "000-000-000",
-    "email": "test@demo.pl",
-    "tax_identification_number": "567",
-    "company_id": "123",
-}
+test_client = [
+    {
+        "company_name": "Test name",
+        "address": "test_address",
+        "contact_person": "Test Person",
+        "phone": "000-000-000",
+        "email": "test@demo.pl",
+        "tax_identification_number": "567",
+        "company_id": "123",
+    },
+    {
+        "company_name": "Test name2",
+        "address": "test_address2",
+        "contact_person": "Test Person2",
+        "phone": "100-100-100",
+        "email": "test1@demo.pl",
+        "tax_identification_number": "111",
+        "company_id": "222",
+    },
+
+]
 
 test_orders = [
     {
@@ -60,8 +87,8 @@ test_orders = [
 
 
 def populate_db(db: Session):
-    employee = Employee(**test_employee)
-    client = Client(**test_client)
+    employee = Employee(**test_employee[0])
+    client = Client(**test_client[0])
     order = Order(**test_orders[0])
     db.bulk_save_objects([employee, client, order])
     db.commit()
@@ -93,3 +120,30 @@ def test_post_order_distance(mock_get, db):
     order = db.query(Order).get(2)
     orders.post_order_distance(order, test_orders[1], db)
     assert db.query(Order.distance).filter(Order.id == 2).first()[0] == 1.61
+
+
+def test_update_order(db):
+    order_updated_dict = {
+        "employee_id": 2,
+        "client_id": 2,
+        "contact_phone": "530-100-000",
+        "destination_address": "Kraków, Wielopole 10",
+        "full_price": 160,
+    }
+    order_updated = orders.update_order('2', db, order_updated_dict)
+    assert db.query(Order).count() == 2
+    assert order_updated.to_dict() == {'client_id': 2,
+                                       'contact_phone': '530-100-000',
+                                       'date': datetime.today().strftime("%Y-%m-%d"),
+                                       'destination_address': 'Kraków, Wielopole 10',
+                                       'distance': 1.61,
+                                       'employee_id': 2,
+                                       'full_price': 160.0,
+                                       'id': 2,
+                                       'other_info': None}
+
+
+def test_delete_client(db):
+    orders.delete_order("1", db)
+    assert db.query(Order).count() == 1
+    assert db.query(Order).filter_by(id=2).first().client_id == 2
