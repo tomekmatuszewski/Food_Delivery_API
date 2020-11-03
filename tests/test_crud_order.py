@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 import pytest
 from unittest.mock import patch
@@ -134,7 +134,7 @@ def test_update_order(db):
     assert db.query(Order).count() == 2
     assert order_updated.to_dict() == {'client_id': 2,
                                        'contact_phone': '530-100-000',
-                                       'date': datetime.today().strftime("%Y-%m-%d"),
+                                       'date': date.today(),
                                        'destination_address': 'Kraków, Wielopole 10',
                                        'distance': 1.61,
                                        'employee_id': 2,

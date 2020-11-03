@@ -4,6 +4,22 @@
 
         <main>
             <div class="buttons-panel">
+                <div id="date-form" class="ui small form">
+                    <form action="" method="get">
+                        <div class="two fields">
+                            <div class="field">
+                                <label for="start-date">Start Date</label>
+                                <input id="start-date" name="start_date" placeholder="" type="text">
+                            </div>
+                            <div class="field">
+                                <label for="end-date">End Date</label>
+                                <input id="end-date" name="start_date" placeholder="" type="text">
+                            </div>
+                            <button type="submit" class="ui submit button">Filter</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div onclick="addClient();" id="add-client" class="ui vertical animated button" tabindex="0">
                   <div class="hidden content">
                       <i class="plus icon"></i>

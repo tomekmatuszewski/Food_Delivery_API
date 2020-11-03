@@ -3,17 +3,24 @@ body
     background-color: #F3F4EC !important;
 }
 
-.buttons-panel
+.buttons-panel #date-form
 {
-    display: flex;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    width: 40%;
+    float: left;
+}
+
+.buttons-panel #date-form button
+{
+    height: 40%;
+    margin-top: 25px;
+    margin-left: 10px;
 }
 
 .buttons-panel #add-order,#add-client,#add-employee
 {
     margin-right: 0;
-    margin-left: auto;
+    float: right;
+    margin-top: 25px;
 }
 
 .ui.menu:first-child
@@ -39,20 +46,31 @@ body
     color: #a42020;
 }
 
-table button
+table td, table th
 {
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+table .delete-edit button
+{
+    display: inline-block;
+    margin-left: 15%;
+    margin-top: 10%;
     border: none;
     background-color: white;
     cursor: pointer;
-    margin-top: 5px;
     color: #343232;
-    float: left;
-
+    align-items:center;
+    justify-content:center;
 }
 
 table button:hover
 {
     color: #a42020;
 }
+
+
+
 
 

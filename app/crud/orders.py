@@ -23,7 +23,7 @@ def post_order(order_dict: Dict, db: Session) -> Order:
     :return: added client to db
     """
     order = Order(**order_dict)
-    order.date = date.today().strftime('%Y-%m-%d')
+    order.date = date.today()
     db.add(order)
     db.commit()
     return order
