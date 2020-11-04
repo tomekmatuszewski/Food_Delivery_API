@@ -2,9 +2,6 @@ from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.database import Base
-from app.models.clients import Client
-from app.models.employees import Employee
-
 
 class Order(Base):
     __tablename__ = "order"
@@ -23,8 +20,10 @@ class Order(Base):
     client = relationship("Client", back_populates="orders")
 
     def __repr__(self):
-        return f"id: {self.id}, delivery person: {self.employee.full_name}," \
-               f"client: {self.client.company_name}"
+        return (
+            f"id: {self.id}, delivery person: {self.employee.full_name},"
+            f"client: {self.client.company_name}"
+        )
 
     def to_dict(self):
         return {

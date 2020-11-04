@@ -1,12 +1,11 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from fastapi.responses import RedirectResponse
 
-from app import Employee, database
+from app import database
 from app.crud import employees as crud
 from app.schemas.employee_schema import EmployeeSchema
 
@@ -34,8 +33,19 @@ async def add_employee(
 
 
 @employees.get("/employees")
-async def get_all_employees(request: Request, db: Session = Depends(get_db)):
-    employees = crud.get_employee(db)
+async def get_all_employees(
+    request: Request,
+    last_name: Optional[str] = None,
+    phone: Optional[str] = None,
+    min_salary: Optional[str] = None,
+    max_salary: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
+
+    if any([last_name, phone, max_salary, min_salary]):
+        employees = crud.filer_employees(last_name, phone, min_salary, max_salary, db)
+    else:
+        employees = crud.get_employee(db)
     return templates.TemplateResponse(
         "employees.html",
         context={
@@ -51,8 +61,9 @@ async def delete_employee(emp_id: str, db: Session = Depends(get_db)):
 
 
 @employees.put("/employees/{emp_id}/update")
-async def update_employee(emp_request: EmployeeSchema, emp_id: str, db: Session = Depends(get_db)):
+async def update_employee(
+    emp_request: EmployeeSchema, emp_id: str, db: Session = Depends(get_db)
+):
     emp_dict = emp_request.dict()
     emp_updated = crud.update_employee(emp_id=emp_id, db=db, emp_dict=emp_dict)
     return emp_updated
-

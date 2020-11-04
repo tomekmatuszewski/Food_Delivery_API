@@ -42,16 +42,18 @@ test_employee = {
 def test_add_employee(client):
     response = client.post("/fast_delivery/employees", json=test_employee)
     assert response.status_code == 200
-    assert response.json() == {'address': 'Test address',
-                               'date_of_birth': '2000-01-01',
-                               'email': 'test@demo.pl',
-                               'first_name': 'Test name',
-                               'gender': 'M',
-                               'id': 1,
-                               'id_number': '11111111111',
-                               'last_name': 'lastname',
-                               'phone': '000-000-000',
-                               'salary': 3000.0}
+    assert response.json() == {
+        "address": "Test address",
+        "date_of_birth": "2000-01-01",
+        "email": "test@demo.pl",
+        "first_name": "Test name",
+        "gender": "M",
+        "id": 1,
+        "id_number": "11111111111",
+        "last_name": "lastname",
+        "phone": "000-000-000",
+        "salary": 3000.0,
+    }
 
 
 emp_updated = {
@@ -70,16 +72,18 @@ emp_updated = {
 def test_update_employee(client):
     response = client.put("/fast_delivery/employees/1/update", json=emp_updated)
     assert response.status_code == 200
-    assert response.json() == {'address': 'Test address',
-                               'date_of_birth': '1990-01-01',
-                               'email': 'test@demo.pl',
-                               'first_name': 'Test name1',
-                               'gender': 'F',
-                               'id': 1,
-                               'id_number': '11111111111',
-                               'last_name': 'lastname1',
-                               'phone': '000-000-000',
-                               'salary': 2000.0}
+    assert response.json() == {
+        "address": "Test address",
+        "date_of_birth": "1990-01-01",
+        "email": "test@demo.pl",
+        "first_name": "Test name1",
+        "gender": "F",
+        "id": 1,
+        "id_number": "11111111111",
+        "last_name": "lastname1",
+        "phone": "000-000-000",
+        "salary": 2000.0,
+    }
 
 
 def test_delete_employee(client):

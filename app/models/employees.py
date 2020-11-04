@@ -1,8 +1,8 @@
 from typing import Dict
-from sqlalchemy import case
+
 from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, column_property
+from sqlalchemy.orm import column_property, relationship
 
 from app.database import Base
 
@@ -33,6 +33,15 @@ class Employee(Base):
         return f"{self.full_name}"
 
     def to_dict(self) -> Dict:
-        return {"id": self.id, "first_name": self.first_name, "last_name": self.last_name, "gender": self.gender,
-                "date_of_birth": self.date_of_birth, "address": self.address, "phone": self.phone, "email": self.email,
-                "id_number": self.id_number, "salary": self.salary}
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "gender": self.gender,
+            "date_of_birth": self.date_of_birth,
+            "address": self.address,
+            "phone": self.phone,
+            "email": self.email,
+            "id_number": self.id_number,
+            "salary": self.salary,
+        }

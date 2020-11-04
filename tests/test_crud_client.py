@@ -1,9 +1,9 @@
 import pytest
+from sqlalchemy.orm import Session
 
+from app.crud import clients
 from app.database import Database
 from app.models import Client
-from app.crud import clients
-from sqlalchemy.orm import Session
 
 test_db = Database("sqlite://")
 
@@ -35,7 +35,7 @@ test_clients = [
         "email": "test@demo.pl",
         "tax_identification_number": "789",
         "company_id": "456",
-    }
+    },
 ]
 
 
@@ -77,16 +77,18 @@ def test_update_client(db):
         "tax_identification_number": "7891",
         "company_id": "4561",
     }
-    client_updated = clients.update_client('1', db, client_upd_dict)
+    client_updated = clients.update_client("1", db, client_upd_dict)
     assert db.query(Client).count() == 2
-    assert client_updated == {'address': 'test_address1',
-                              'company_id': '4561',
-                              'company_name': 'Test name22',
-                              'contact_person': 'Test Person1',
-                              'email': 'test1@demo.pl',
-                              'id': 1,
-                              'phone': '100-100-000',
-                              'tax_identification_number': '7891'}
+    assert client_updated == {
+        "address": "test_address1",
+        "company_id": "4561",
+        "company_name": "Test name22",
+        "contact_person": "Test Person1",
+        "email": "test1@demo.pl",
+        "id": 1,
+        "phone": "100-100-000",
+        "tax_identification_number": "7891",
+    }
 
 
 def test_delete_client(db):

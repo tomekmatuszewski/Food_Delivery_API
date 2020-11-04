@@ -1,9 +1,9 @@
 import pytest
+from sqlalchemy.orm import Session
 
+from app.crud import employees
 from app.database import Database
 from app.models import Employee
-from app.crud import employees
-from sqlalchemy.orm import Session
 
 test_db = Database("sqlite://")
 
@@ -39,7 +39,7 @@ test_employees = [
         "email": "test@demo.pl",
         "id_number": "777",
         "salary": 30000,
-    }
+    },
 ]
 
 
@@ -85,18 +85,20 @@ def test_update_employee(db):
         "id_number": "69000",
         "salary": 2000,
     }
-    emp_updated = employees.update_employee('1', db, employee_upd_dict)
+    emp_updated = employees.update_employee("1", db, employee_upd_dict)
     assert db.query(Employee).count() == 2
-    assert emp_updated == {'address': 'Test address1',
-                           'date_of_birth': '1990-01-01',
-                           'email': 'test1@demo.pl',
-                           'first_name': 'Test name1',
-                           'gender': 'F',
-                           'id': 1,
-                           'id_number': '69000',
-                           'last_name': 'lastname1',
-                           'phone': '500-000-000',
-                           'salary': 2000.0}
+    assert emp_updated == {
+        "address": "Test address1",
+        "date_of_birth": "1990-01-01",
+        "email": "test1@demo.pl",
+        "first_name": "Test name1",
+        "gender": "F",
+        "id": 1,
+        "id_number": "69000",
+        "last_name": "lastname1",
+        "phone": "500-000-000",
+        "salary": 2000.0,
+    }
 
 
 def test_delete_client(db):

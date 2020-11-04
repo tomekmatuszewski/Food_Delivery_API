@@ -1,10 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
 
+from app import Client
 from app.database import Database
 from app.main import create_app
 from app.routers.clients import get_db
-from app import Client
 
 test_db = Database("sqlite://")
 app = create_app()
@@ -41,14 +41,16 @@ data = {
 def test_add_client(client):
     response = client.post("/fast_delivery/clients", json=data)
     assert response.status_code == 200
-    assert response.json() == {'address': 'test_address',
-                               'company_id': '0000',
-                               'company_name': 'Test name',
-                               'contact_person': 'Test Person',
-                               'email': 'test@demo.pl',
-                               'id': 1,
-                               'phone': '000-000-000',
-                               'tax_identification_number': '000000000'}
+    assert response.json() == {
+        "address": "test_address",
+        "company_id": "0000",
+        "company_name": "Test name",
+        "contact_person": "Test Person",
+        "email": "test@demo.pl",
+        "id": 1,
+        "phone": "000-000-000",
+        "tax_identification_number": "000000000",
+    }
 
 
 client_updated = {
@@ -65,17 +67,18 @@ client_updated = {
 def test_update_client(client):
     response = client.put("/fast_delivery/clients/1/update", json=client_updated)
     assert response.status_code == 200
-    assert response.json() == {'address': 'test_address1',
-                               'company_id': '0000',
-                               'company_name': 'Test name1',
-                               'contact_person': 'Test Person2',
-                               'email': 'test@demo.pl',
-                               'id': 1,
-                               'phone': '000-000-100',
-                               'tax_identification_number': '000000000'}
+    assert response.json() == {
+        "address": "test_address1",
+        "company_id": "0000",
+        "company_name": "Test name1",
+        "contact_person": "Test Person2",
+        "email": "test@demo.pl",
+        "id": 1,
+        "phone": "000-000-100",
+        "tax_identification_number": "000000000",
+    }
 
 
 def test_delete_client(client):
     response = client.delete("/fast_delivery/clients/1/delete")
     assert response.status_code == 200
-

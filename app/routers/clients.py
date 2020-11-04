@@ -1,9 +1,8 @@
 from pathlib import Path
-from typing import Dict
-from app import Client
+from typing import Dict, Optional
+
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app import database
@@ -34,8 +33,17 @@ async def add_client(
 
 
 @clients.get("/clients")
-async def get_all_clients(request: Request, db: Session = Depends(get_db)):
-    clients = crud.get_clients(db)
+async def get_all_clients(
+    request: Request,
+    company_name: Optional[str] = None,
+    contact_person: Optional[str] = None,
+    phone: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
+    if any([company_name, contact_person, phone]):
+        clients = crud.filter_clients(company_name, contact_person, phone, db)
+    else:
+        clients = crud.get_clients(db)
     return templates.TemplateResponse(
         "clients.html",
         context={
@@ -46,15 +54,21 @@ async def get_all_clients(request: Request, db: Session = Depends(get_db)):
 
 
 @clients.delete("/clients/{client_id}/delete")
-async def delete_client(client_id: str, db: Session = Depends(get_db),) -> None:
+async def delete_client(
+    client_id: str,
+    db: Session = Depends(get_db),
+) -> None:
     crud.delete_client(client_id=client_id, db=db)
 
 
 @clients.put("/clients/{client_id}/update")
-async def update_client(client_request: ClientSchema, client_id: str, db: Session = Depends(get_db),):
+async def update_client(
+    client_request: ClientSchema,
+    client_id: str,
+    db: Session = Depends(get_db),
+):
     client_dict = client_request.dict()
-    client_updated = crud.update_client(client_id=client_id, db=db, client_dict=client_dict)
+    client_updated = crud.update_client(
+        client_id=client_id, db=db, client_dict=client_dict
+    )
     return client_updated
-
-
-

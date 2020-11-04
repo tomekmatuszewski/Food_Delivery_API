@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from pathlib import Path
 from unittest.mock import patch
 
@@ -98,15 +99,17 @@ def test_update_order(mock_get, client, db):
 
     response = client.put("/fast_delivery/orders/1/update", json=order_updated_dict)
     assert response.status_code == 200
-    assert response.json() == {'client_id': 1,
-                               'contact_phone': '555-666-999',
-                               'date': '2020-11-03',
-                               'destination_address': 'Kraków, Wielopole 10',
-                               'distance': 1.61,
-                               'employee_id': 1,
-                               'full_price': 200.0,
-                               'id': 1,
-                               'other_info': None}
+    assert response.json() == {
+        "client_id": 1,
+        "contact_phone": "555-666-999",
+        "date": date.today().strftime("%Y-%m-%d"),
+        "destination_address": "Kraków, Wielopole 10",
+        "distance": 1.61,
+        "employee_id": 1,
+        "full_price": 200.0,
+        "id": 1,
+        "other_info": None,
+    }
 
 
 def test_delete_order(client, db):

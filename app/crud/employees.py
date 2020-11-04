@@ -28,3 +28,28 @@ def update_employee(emp_id: str, db: Session, emp_dict: Dict) -> Dict:
     emp_updated = db.query(Employee).filter_by(id=emp_id).first()
     db.commit()
     return emp_updated.to_dict()
+
+
+def filer_employees(
+    last_name: str, phone: str, min_salary: str, max_salary: str, db: Session
+) -> Employee:
+    query = db.query(Employee)
+    if last_name:
+        employees = query.filter(Employee.last_name.like(f"%{last_name}%"))
+    elif phone:
+        employees = query.filter(Employee.phone == phone)
+    else:
+        employees = filter_by_salary(query, min_salary, max_salary)
+    return employees
+
+
+def filter_by_salary(query: Query, min_salary: str, max_salary: str) -> Employee:
+
+    if min_salary and max_salary:
+        result = query.filter(Employee.salary.between(min_salary, max_salary))
+    elif not max_salary:
+        result = query.filter(Employee.salary >= min_salary)
+    else:
+        result = query.filter(Employee.salary <= max_salary)
+
+    return result

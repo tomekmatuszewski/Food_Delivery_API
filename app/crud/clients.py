@@ -2,7 +2,7 @@ from typing import Dict
 
 from sqlalchemy.orm import Query, Session
 
-from app import Client, schemas
+from app import Client
 
 
 def get_clients(db: Session) -> Query:
@@ -41,3 +41,13 @@ def update_client(client_id: str, db: Session, client_dict: Dict) -> Dict:
     return client_updated.to_dict()
 
 
+def filter_clients(
+    company_name: str, contact_person: str, phone: str, db: Session
+) -> Client:
+    clients = db.query(Client)
+    if company_name:
+        return clients.filter(Client.company_name.like(f"%{company_name}%"))
+    elif contact_person:
+        return clients.filter(Client.contact_person.like(f"%{contact_person}%"))
+    else:
+        return clients.filter(Client.phone == phone)

@@ -1,12 +1,12 @@
 from datetime import date
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import patch
-from app.database import Database
-from app.models import Order, Employee, Client
-from app.crud import orders
 from sqlalchemy.orm import Session
 
+from app.crud import orders
+from app.database import Database
+from app.models import Client, Employee, Order
 from app.routers.utils import get_distance
 
 test_db = Database("sqlite://")
@@ -43,7 +43,7 @@ test_employee = [
         "email": "test1@demo.pl",
         "id_number": "5454",
         "salary": 2000,
-    }
+    },
 ]
 
 test_client = [
@@ -65,7 +65,6 @@ test_client = [
         "tax_identification_number": "111",
         "company_id": "222",
     },
-
 ]
 
 test_orders = [
@@ -130,17 +129,19 @@ def test_update_order(db):
         "destination_address": "Kraków, Wielopole 10",
         "full_price": 160,
     }
-    order_updated = orders.update_order('2', db, order_updated_dict)
+    order_updated = orders.update_order("2", db, order_updated_dict)
     assert db.query(Order).count() == 2
-    assert order_updated.to_dict() == {'client_id': 2,
-                                       'contact_phone': '530-100-000',
-                                       'date': date.today(),
-                                       'destination_address': 'Kraków, Wielopole 10',
-                                       'distance': 1.61,
-                                       'employee_id': 2,
-                                       'full_price': 160.0,
-                                       'id': 2,
-                                       'other_info': None}
+    assert order_updated.to_dict() == {
+        "client_id": 2,
+        "contact_phone": "530-100-000",
+        "date": date.today(),
+        "destination_address": "Kraków, Wielopole 10",
+        "distance": 1.61,
+        "employee_id": 2,
+        "full_price": 160.0,
+        "id": 2,
+        "other_info": None,
+    }
 
 
 def test_delete_client(db):

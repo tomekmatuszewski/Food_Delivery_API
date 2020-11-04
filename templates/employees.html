@@ -4,16 +4,24 @@
 
         <main>
             <div class="buttons-panel">
-                <div id="date-form" class="ui small form">
+                <div id="form-emp" class="ui small form">
                     <form action="" method="get">
-                        <div class="two fields">
+                        <div class="four fields">
                             <div class="field">
-                                <label for="start-date">Start Date</label>
-                                <input id="start-date" name="start_date" placeholder="" type="text">
+                                <label for="last-name">Search by Last Name</label>
+                                <input id="last-name" name="last_name" placeholder="Last Name" type="text">
                             </div>
                             <div class="field">
-                                <label for="end-date">End Date</label>
-                                <input id="end-date" name="start_date" placeholder="" type="text">
+                                <label for="phone">Search by Phone</label>
+                                <input id="phone" name="phone" placeholder="000-000-000" type="text">
+                            </div>
+                            <div class="field">
+                                <label for="min_salary">Lowest Salary</label>
+                                <input id="min_salary" name="min_salary" placeholder="salary" type="text">
+                            </div>
+                            <div class="field">
+                                <label for="max_salary">Highest Salary</label>
+                                <input id="max_salary" name="max_salary" placeholder="salary" type="text">
                             </div>
                             <button type="submit" class="ui submit button">Filter</button>
                         </div>
