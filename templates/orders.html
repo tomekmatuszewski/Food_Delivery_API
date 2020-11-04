@@ -4,16 +4,28 @@
 
         <main>
             <div class="buttons-panel">
-                <div id="date-form" class="ui small form">
+                <div id="filter-form" class="ui small form">
                     <form action="{{ url_for('get_all_orders') }}" method="get">
-                        <div class="two fields">
+                        <div class="five fields">
                             <div class="field">
                                 <label for="start-date">Start Date</label>
                                 <input id="start-date" name="start_date" placeholder="YYYY-MM-DD" type="date">
                             </div>
                             <div class="field">
                                 <label for="end-date">End Date</label>
-                                <input id="end-date" name="start_date" placeholder="YYYY-MM-DD" type="date">
+                                <input id="end-date" name="end_date" placeholder="YYYY-MM-DD" type="date">
+                            </div>
+                            <div class="field">
+                                <label for="low-price">Lowest Order Price</label>
+                                <input id="low-price" name="low_price" placeholder="0.00" type="text">
+                            </div>
+                            <div class="field">
+                                <label for="high-price">Highest Order Price</label>
+                                <input id="high-price" name="high_price" placeholder="100.00" type="text">
+                            </div>
+                            <div class="field">
+                                <label for="employee">Employee</label>
+                                <input id="employee" name="employee" placeholder="Firstname Lastname" type="text">
                             </div>
                             <button type="submit" class="ui submit button">Filter</button>
                         </div>

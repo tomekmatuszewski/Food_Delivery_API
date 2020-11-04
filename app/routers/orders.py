@@ -1,11 +1,10 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from fastapi.responses import RedirectResponse
-from app import database, Order
+from app import database
 from app.crud import clients as crud_cli
 from app.crud import employees as crud_emp
 from app.crud import orders as crud_ord
@@ -26,32 +25,31 @@ def get_db() -> Session:
 
 
 @orders.get("/orders")
-async def get_all_orders(request: Request, db: Session = Depends(get_db)):
-    """
-    Display all orders from db
-    :param request:
-    :param db: session of database
-    :return:
-    """
-    orders = crud_ord.get_orders(db)
+async def get_all_orders(request: Request, start_date: Optional[str] = None, end_date: Optional[str] = None,
+                         low_price: Optional[str] = None, high_price: Optional[str] = None,
+                         employee: Optional[str] = None,
+                         db: Session = Depends(get_db)):
+    if any([start_date, end_date, low_price, high_price, employee]):
+        orders = crud_ord.filter_orders(start_date, end_date, low_price, high_price, employee, db)
+    else:
+        orders = crud_ord.get_orders(db)
+
     employees = crud_emp.get_employee(db)
     clients = crud_cli.get_clients(db)
     return templates.TemplateResponse(
-        "orders.html",
-        context={
-            "request": request,
-            "orders": orders,
-            "employees": employees,
-            "clients": clients,
-        },
+        "orders.html", context={"request": request,
+                                "orders": orders,
+                                "employees": employees,
+                                "clients": clients,
+                                },
     )
 
 
 @orders.post("/orders")
 async def create_order(
-    order_request: OrderSchema,
-    background_task: BackgroundTasks,
-    db: Session = Depends(get_db),
+        order_request: OrderSchema,
+        background_task: BackgroundTasks,
+        db: Session = Depends(get_db),
 ) -> Dict:
     order_dict = order_request.dict()
     order = crud_ord.post_order(order_dict, db)
@@ -66,12 +64,13 @@ async def create_order(
 
 
 @orders.delete("/orders/{order_id}/delete")
-async def delete_order(order_id: str, db: Session = Depends(get_db),):
+async def delete_order(order_id: str, db: Session = Depends(get_db), ):
     crud_ord.delete_order(order_id, db)
 
 
 @orders.put("/orders/{order_id}/update")
-async def update_order(order_request: OrderSchema, order_id: str, background_task: BackgroundTasks, db: Session = Depends(get_db)):
+async def update_order(order_request: OrderSchema, order_id: str, background_task: BackgroundTasks,
+                       db: Session = Depends(get_db)):
     order_dict = order_request.dict()
     order_updated = crud_ord.update_order(order_id=order_id, db=db, order_dict=order_dict)
 

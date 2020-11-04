@@ -1,8 +1,8 @@
 from typing import Dict
-
+from sqlalchemy import case
 from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, column_property
 
 from app.database import Base
 
@@ -21,6 +21,7 @@ class Employee(Base):
     email = Column(String(100))
     id_number = Column(String(11), unique=True)
     salary = Column(Float())
+    fullname = column_property(first_name + " " + last_name)
 
     orders = relationship("Order", back_populates="employee")
 

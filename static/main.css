@@ -3,16 +3,21 @@ body
     background-color: #F3F4EC !important;
 }
 
-.buttons-panel #date-form
+.buttons-panel #filter-form
 {
-    width: 40%;
+    width: 85%;
     float: left;
 }
 
-.buttons-panel #date-form button
+.buttons-panel #filter-form input
+{
+    height: 60%;
+}
+
+.buttons-panel #filter-form button
 {
     height: 40%;
-    margin-top: 25px;
+    margin-top: 24px;
     margin-left: 10px;
 }
 
@@ -20,7 +25,7 @@ body
 {
     margin-right: 0;
     float: right;
-    margin-top: 25px;
+    margin-top: 24px;
 }
 
 .ui.menu:first-child
