@@ -1,6 +1,5 @@
 import uvicorn
 
-from app.main import create_app
+from app.main import app
 
-app = create_app()
 uvicorn.run(app)

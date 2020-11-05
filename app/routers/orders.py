@@ -11,6 +11,7 @@ from app.crud import employees as crud_emp
 from app.crud import orders as crud_ord
 from app.schemas import OrderSchema
 
+
 BASE_DIR = Path(__file__).parent.parent.parent
 templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 orders = APIRouter()
@@ -37,7 +38,7 @@ async def get_all_orders(
 ):
     if any([start_date, end_date, low_price, high_price, employee]):
         orders = crud_ord.filter_orders(
-            start_date, end_date, low_price, high_price, employee, db
+            db, start_date, end_date, low_price, high_price, employee
         )
     else:
         orders = crud_ord.get_orders(db)
@@ -60,7 +61,8 @@ async def create_order(
     order_request: OrderSchema,
     background_task: BackgroundTasks,
     db: Session = Depends(get_db),
-) -> Dict:
+):
+
     order_dict = order_request.dict()
     order = crud_ord.post_order(order_dict, db)
     background_task.add_task(
@@ -69,8 +71,8 @@ async def create_order(
         order_dict,
         db,
     )
-
     return order.to_dict()
+
 
 
 @orders.delete("/orders/{order_id}/delete")

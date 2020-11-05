@@ -43,7 +43,7 @@ async def get_all_employees(
 ):
 
     if any([last_name, phone, max_salary, min_salary]):
-        employees = crud.filer_employees(last_name, phone, min_salary, max_salary, db)
+        employees = crud.filter_employees(db, last_name, phone, min_salary, max_salary)
     else:
         employees = crud.get_employee(db)
     return templates.TemplateResponse(

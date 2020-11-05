@@ -2,12 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.database import Database
-from app.main import create_app
+from app.main import app
 from app.routers.employees import get_db
 
 test_db = Database("sqlite://")
-app = create_app()
-
 
 def override_get_db():
     try:

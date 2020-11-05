@@ -8,12 +8,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.database import Database
-from app.main import create_app
+from app.main import app
 from app.models import Client, Order
 from app.routers.orders import get_db
 
 BASE_DIR = Path(__file__).parent
-app = create_app()
 
 
 @pytest.fixture(name="db", scope="module")

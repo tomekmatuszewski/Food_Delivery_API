@@ -3,6 +3,13 @@ body
     background-color: #F3F4EC !important;
 }
 
+.home-gif
+{
+    position: relative;
+    top: 50%;
+    left: 30%;
+}
+
 #form-orders
 {
     width: 83%;

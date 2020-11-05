@@ -30,9 +30,9 @@ def update_employee(emp_id: str, db: Session, emp_dict: Dict) -> Dict:
     return emp_updated.to_dict()
 
 
-def filer_employees(
-    last_name: str, phone: str, min_salary: str, max_salary: str, db: Session
-) -> Employee:
+def filter_employees(
+    db: Session, last_name: str = None, phone: str = None, min_salary: str = None, max_salary: str = None
+) -> Query:
     query = db.query(Employee)
     if last_name:
         employees = query.filter(Employee.last_name.like(f"%{last_name}%"))

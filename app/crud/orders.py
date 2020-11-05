@@ -54,13 +54,13 @@ def update_order(order_id: str, db: Session, order_dict: Dict) -> Order:
 
 
 def filter_orders(
-    start_date: str,
-    end_date: str,
-    low_price: str,
-    high_price: str,
-    employee: str,
     db: Session,
-) -> Order:
+    start_date: str = None,
+    end_date: str = None,
+    low_price: str = None,
+    high_price: str = None,
+    employee: str = None,
+) -> Query:
 
     query = db.query(Order)
 
