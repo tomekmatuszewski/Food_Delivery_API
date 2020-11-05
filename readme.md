@@ -1,8 +1,9 @@
 #### Simple API for food delivery company:
 
-1. Delivery registration by the supplier
-2. Get monthly, weekly delivery reports
-3. Manage Database of products
+1. Delivery registration
+2. Add employee and client to database
+3. Register order -> automatically calculate the travel distance
+4. Track all orders / filter by dates - prices etc.
 
 :snake: FAST_API :snake:, SQLAlchemy
 
