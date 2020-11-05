@@ -1,0 +1,106 @@
+{
+  "employees": [
+    {
+      "first_name": "Joe",
+      "last_name": "Doe",
+      "gender": "Male",
+      "date_of_birth": "1990-02-10",
+      "address": "30-392 Kraków, Bunscha 1",
+      "phone": "600-567-900",
+      "email": "joe.doe@media.pl",
+      "id_number": "90021056800",
+      "salary": 3000
+    },
+    {
+      "first_name": "Jack",
+      "last_name": "Truck",
+      "gender": "Male",
+      "date_of_birth": "1980-05-10",
+      "address": "30-392 Kraków, Raciborska 2",
+      "phone": "600-800-500",
+      "email": "truck@media.pl",
+      "id_number": "80051078900",
+      "salary": 2560
+    },
+    {
+      "first_name": "Jan",
+      "last_name": "Nowak",
+      "gender": "Male",
+      "date_of_birth": "1985-10-10",
+      "address": "30-392 Kraków, Zbrojarzy  1",
+      "phone": "800-567-900",
+      "email": "jan.nowak@media.pl",
+      "id_number": "85101067900",
+      "salary": 2000
+    }
+  ],
+  "clients": [
+    {
+      "company_name": "Vege Ramen",
+      "address": "Kraków, Długa 3",
+      "contact_person": "Jan Kowalski",
+      "phone": "560-800-400",
+      "email": "jan.kowalski@vegeramen.pl",
+      "tax_identification_number": "PL1234567890",
+      "company_id": "123456789"
+    },
+    {
+      "company_name": "Pizzeria Italiano",
+      "address": "Kraków, Wielopole 3",
+      "contact_person": "Andrzej Włoski",
+      "phone": "670-890-450",
+      "email": "wloski@italiano.com",
+      "tax_identification_number": "PL1236787770",
+      "company_id": "777777777"
+    },
+    {
+      "company_name": "Rzeźnia Ribs on Fire",
+      "address": "Kraków, Bożego Ciała 3",
+      "contact_person": "George Meat",
+      "phone": "800-800-900",
+      "email": "g.meat@rzeznia.com",
+      "tax_identification_number": "PL8899007788",
+      "company_id": "005599991"
+    }
+  ],
+  "orders": [
+    {
+      "employee_id": 1,
+      "client_id": 1,
+      "contact_phone": "578-900-450",
+      "destination_address": "Kraków, Kobierzyńska 1",
+      "full_price": 150
+    },
+    {
+      "employee_id": 2,
+      "client_id": 2,
+      "contact_phone": "670-900-400",
+      "destination_address": "Kraków, Jana Pawła II 10",
+      "full_price": 50,
+      "other_info": "first floor"
+    },
+    {
+      "employee_id": 1,
+      "client_id": 3,
+      "contact_phone": "670-555-499",
+      "destination_address": "Kraków, Zwierzyniecka 5",
+      "full_price": 67,
+      "other_info": "gate key: 1111"
+    },
+    {
+      "employee_id": 3,
+      "client_id": 1,
+      "contact_phone": "890-333-499",
+      "destination_address": "Kraków, Jana Brożka 17",
+      "full_price": 90
+    },
+    {
+      "employee_id": 2,
+      "client_id": 3,
+      "contact_phone": "876-555-300",
+      "destination_address": "Kraków, Bociana 1",
+      "full_price": 270,
+      "other_info": "second floor"
+    }
+  ]
+}

@@ -1,6 +1,8 @@
+from typing import Dict, List
+
 import pytest
 from sqlalchemy.orm import Session
-from typing import List, Dict
+
 from app.crud import clients as filters
 from app.database import Database
 from app.models import Client
@@ -15,7 +17,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 
 test_clients = [

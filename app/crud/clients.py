@@ -42,7 +42,8 @@ def update_client(client_id: str, db: Session, client_dict: Dict) -> Dict:
 
 
 def filter_clients(
-        db: Session, company_name: str = None, contact_person: str = None, phone: str = None) -> Query:
+    db: Session, company_name: str = None, contact_person: str = None, phone: str = None
+) -> Query:
     clients = db.query(Client)
     if company_name:
         return clients.filter(Client.company_name.like(f"%{company_name}%"))

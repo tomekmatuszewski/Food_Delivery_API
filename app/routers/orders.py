@@ -11,7 +11,6 @@ from app.crud import employees as crud_emp
 from app.crud import orders as crud_ord
 from app.schemas import OrderSchema
 
-
 BASE_DIR = Path(__file__).parent.parent.parent
 templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 orders = APIRouter()
@@ -72,7 +71,6 @@ async def create_order(
         db,
     )
     return order.to_dict()
-
 
 
 @orders.delete("/orders/{order_id}/delete")

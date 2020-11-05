@@ -9,7 +9,6 @@ from app import database
 from app.crud import clients as crud
 from app.schemas.client_schema import ClientSchema
 
-
 BASE_DIR = Path(__file__).parent.parent.parent
 templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
 clients = APIRouter()
@@ -32,8 +31,6 @@ async def add_client(
 
     client = crud.post_client(client_dict=client_dict, db=db)
     return client.to_dict()
-
-
 
 
 @clients.get("/clients")

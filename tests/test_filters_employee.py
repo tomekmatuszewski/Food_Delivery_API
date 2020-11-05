@@ -1,6 +1,8 @@
+from typing import Dict, List
+
 import pytest
 from sqlalchemy.orm import Session
-from typing import List, Dict
+
 from app.crud import employees as filters
 from app.database import Database
 from app.models import Employee
@@ -42,6 +44,7 @@ test_employees = [
     },
 ]
 
+
 def populate_db(base: List[Dict], db: Session):
     for emp in base:
         employee = Employee(**emp)
@@ -68,26 +71,26 @@ def test_filter_by_phone(db):
 
 
 def test_filter_by_salary(db):
-    employee = filters.filter_employees(max_salary='2100', min_salary='1900', db=db)
+    employee = filters.filter_employees(max_salary="2100", min_salary="1900", db=db)
     assert len(employee.all()) == 1
     assert employee.all()[0].full_name == "Jack Track"
 
 
 def test_filter_by_salary_more_than_one(db):
-    employee = filters.filter_employees(max_salary='3500', min_salary='1000', db=db)
+    employee = filters.filter_employees(max_salary="3500", min_salary="1000", db=db)
     assert len(employee.all()) == 2
 
 
 def test_filter_by_salary_only_min(db):
-    employee = filters.filter_employees(min_salary='2500', db=db)
+    employee = filters.filter_employees(min_salary="2500", db=db)
     assert len(employee.all()) == 1
 
 
 def test_filter_by_salary_only_max(db):
-    employee = filters.filter_employees(max_salary='2500', db=db)
+    employee = filters.filter_employees(max_salary="2500", db=db)
     assert len(employee.all()) == 1
 
 
 def test_filter_by_salary__empty_set(db):
-    employee = filters.filter_employees(min_salary='3400', max_salary='4000', db=db)
+    employee = filters.filter_employees(min_salary="3400", max_salary="4000", db=db)
     assert len(employee.all()) == 0

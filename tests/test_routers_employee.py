@@ -7,6 +7,7 @@ from app.routers.employees import get_db
 
 test_db = Database("sqlite://")
 
+
 def override_get_db():
     try:
         db = test_db.SessionLocal()

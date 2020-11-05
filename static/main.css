@@ -10,6 +10,11 @@ body
     left: 30%;
 }
 
+h3
+{
+    text-align: center;
+}
+
 #form-orders
 {
     width: 83%;

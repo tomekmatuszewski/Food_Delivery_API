@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.database import Base
 
+
 class Order(Base):
     __tablename__ = "order"
 
