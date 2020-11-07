@@ -14,9 +14,7 @@
 
 to run app:
     
-    $ git clone <repo> .
-    $ virtualenv venv
-    $ source venv/bin/activate
+    clone repo, create virtual env and activate
     $ pip install -r requirements.txt
     $ python run.py
     
