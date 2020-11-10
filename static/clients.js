@@ -3,9 +3,9 @@ function addClient() {
 }
 
 function saveClient() {
-    var inputs = document.querySelectorAll("#new-client .form input")
-    var inputs_len = inputs.length
-    const post_data = {}
+    var inputs = document.querySelectorAll("#new-client .form input");
+    var inputs_len = inputs.length;
+    var post_data = {}
     for (var i=0; i < inputs_len; i++){
         post_data[inputs[i].className] = inputs[i].value
     }
@@ -51,8 +51,8 @@ function saveUpdatedClient(){
 
 function deleteClient(element){
     var idToform = element.parentNode.parentNode.children[0].textContent;
-    id = document.querySelector("#delete-client .content span")
-    id.innerHTML = idToform
+    id = document.querySelector("#delete-client .content span");
+    id.innerHTML = idToform;
     $('#delete-client').modal('show');
 }
 
