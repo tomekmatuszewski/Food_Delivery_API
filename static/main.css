@@ -1,6 +1,6 @@
 body
 {
-    background-color: #F3F4EC !important;
+    background-color: #F3F4EC;
 }
 
 .home-gif
@@ -57,7 +57,7 @@ h3
 
 .ui.menu:first-child
 {
-    margin-top: 20px !important;
+    margin-top: 20px;
 }
 
 #client-table .delete-edit, #emp-table .delete-edit, #order-table .delete-edit
@@ -80,7 +80,7 @@ h3
 
 table td, table th
 {
-    text-align: left !important;
+    text-align: left;
     vertical-align: middle;
 }
 
